@@ -25,22 +25,47 @@
 }
 .logo-symbol { -fx-text-fill: white; -fx-font-size: 23px; -fx-font-weight: bold; }
 .application-title { -fx-font-size: 21px; -fx-font-weight: bold; -fx-text-fill: #151c2c; }
+
+/* Header buttons (date, bell, profile) styled as clickable areas */
+.date-box, .notification-button, .profile-circle {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.date-box:hover, .notification-button:hover, .profile-circle:hover {
+    -fx-opacity: 0.85;
+}
+
 .date-box {
-    -fx-background-color: white; -fx-border-color: #d9e1ed;
-    -fx-border-radius: 9; -fx-background-radius: 9; -fx-padding: 9 13;
+    -fx-background-color: white;
+    -fx-border-color: #d9e1ed;
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
+    -fx-padding: 9 13;
 }
 .header-icon { -fx-font-size: 19px; }
 .date-label { -fx-font-size: 15px; }
 .dropdown-arrow { -fx-font-size: 17px; }
-.notification-button { -fx-background-color: transparent; -fx-min-width: 42; -fx-min-height: 42; }
+
+.notification-button {
+    -fx-min-width: 42; -fx-min-height: 42;
+}
 .notification-icon { -fx-font-size: 25px; -fx-text-fill: #1e2a43; }
 .notification-badge {
-    -fx-background-color: #1769ff; -fx-background-radius: 20;
-    -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold;
-    -fx-padding: 3 6; -fx-translate-x: 10; -fx-translate-y: -10;
+    -fx-background-color: #1769ff;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 6;
+    -fx-translate-x: 10;
+    -fx-translate-y: -10;
 }
+
 .profile-circle {
-    -fx-background-color: #e9edf5; -fx-background-radius: 50;
+    -fx-background-color: #e9edf5;
+    -fx-background-radius: 50;
     -fx-min-width: 40; -fx-min-height: 40;
 }
 .profile-icon { -fx-font-size: 23px; -fx-text-fill: #273653; }
@@ -52,78 +77,133 @@
     -fx-background-color: white;
     -fx-border-color: transparent #e1e6ee transparent transparent;
     -fx-border-width: 0 1 0 0;
-    -fx-padding: 14 15 14 15; -fx-pref-width: 220;
+    -fx-padding: 14 15 14 15;
+    -fx-pref-width: 220;
 }
 .sidebar-button {
-    -fx-background-color: transparent; -fx-background-radius: 10;
-    -fx-border-radius: 10; -fx-alignment: CENTER_LEFT;
-    -fx-text-fill: #27324a; -fx-font-size: 14px;
-    -fx-padding: 11 13; -fx-pref-height: 42;
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #27324a;
+    -fx-font-size: 14px;
+    -fx-padding: 11 13;
+    -fx-pref-height: 42;
 }
 .sidebar-button:hover { -fx-background-color: #f0f5ff; -fx-text-fill: #1769ff; }
-.sidebar-active { -fx-background-color: #e8f0ff; -fx-text-fill: #0758ed; -fx-font-weight: bold; }
+.sidebar-active {
+    -fx-background-color: #e8f0ff;
+    -fx-text-fill: #0758ed;
+    -fx-font-weight: bold;
+}
 
 /* =========================================================
-   PRODUCTIVITY SCORE
+   PRODUCTIVITY SCORE CARD
    ========================================================= */
 .score-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 11; -fx-background-radius: 11; -fx-padding: 18 10;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 11;
+    -fx-background-radius: 11;
+    -fx-padding: 18 10;
 }
 .score-title { -fx-text-fill: #1769ff; -fx-font-size: 14px; -fx-font-weight: bold; }
 .score-circle {
-    -fx-background-color: #f4f7fa; -fx-border-color: #18a957;
-    -fx-border-width: 7; -fx-border-radius: 100; -fx-background-radius: 100;
-    -fx-min-width: 116; -fx-min-height: 116; -fx-max-width: 116; -fx-max-height: 116;
+    -fx-background-color: #f4f7fa;
+    -fx-border-color: #18a957;
+    -fx-border-width: 7;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-min-width: 116; -fx-min-height: 116;
+    -fx-max-width: 116; -fx-max-height: 116;
 }
 .score-number { -fx-font-size: 46px; -fx-font-weight: bold; -fx-text-fill: #26314a; }
 .score-status { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #16a354; }
 .score-message { -fx-font-size: 13px; -fx-text-fill: #46516a; }
 
 /* =========================================================
-   MAIN CONTENT & TABS
+   MAIN CONTENT + TABS
    ========================================================= */
 .main-content { -fx-background-color: #f7f9fd; -fx-padding: 0 10 0 12; }
 .main-tabs { -fx-background-color: transparent; }
-.main-tabs .tab-header-area, .main-tabs .tab-header-background { -fx-background-color: transparent; }
+.main-tabs .tab-header-area,
+.main-tabs .tab-header-background { -fx-background-color: transparent; }
 .main-tabs .tab {
-    -fx-background-color: white; -fx-border-color: #dce3ed;
-    -fx-border-width: 1 1 0 1; -fx-padding: 13 28;
+    -fx-background-color: white;
+    -fx-border-color: #dce3ed;
+    -fx-border-width: 1 1 0 1;
+    -fx-padding: 13 28;
 }
 .main-tabs .tab-label { -fx-font-size: 15px; -fx-text-fill: #29344b; }
 .main-tabs .tab:selected {
-    -fx-background-color: white; -fx-border-color: #dce3ed #dce3ed #1769ff #dce3ed;
+    -fx-background-color: white;
+    -fx-border-color: #dce3ed #dce3ed #1769ff #dce3ed;
     -fx-border-width: 1 1 3 1;
 }
 .main-tabs .tab:selected .tab-label { -fx-text-fill: #0758ed; -fx-font-weight: bold; }
+
 .content-scroll { -fx-background-color: transparent; -fx-border-color: transparent; }
 .content-scroll > .viewport { -fx-background-color: #f7f9fd; }
 .tab-content { -fx-background-color: #f7f9fd; -fx-padding: 0 0 10 0; }
 
 /* =========================================================
-   SESSION CARD
+   SESSION CARD (Screen Time)
    ========================================================= */
 .session-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 23 25;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 23 25;
 }
 .field-title { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #172033; }
 .secondary-label { -fx-font-size: 13px; -fx-text-fill: #68738a; }
 .progress-section { -fx-padding: 11 0 0 0; }
+
+/* =========================================================
+   COMBO BOXES
+   ========================================================= */
 .app-combo {
-    -fx-background-color: white; -fx-border-color: #d5deeb;
-    -fx-border-radius: 9; -fx-background-radius: 9;
-    -fx-padding: 7; -fx-font-size: 15px;
+    -fx-background-color: white;
+    -fx-border-color: #d5deeb;
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
+    -fx-padding: 7;
+    -fx-font-size: 15px;
 }
 .app-combo:hover, .app-combo:focused { -fx-border-color: #1769ff; }
-.filter-combo { -fx-background-color: white; -fx-border-color: #d5deeb; -fx-border-radius: 8; -fx-background-radius: 8; }
-.app-icon-button {
-    -fx-background-color: white; -fx-border-color: #d4deeb;
-    -fx-border-radius: 9; -fx-background-radius: 9;
-    -fx-min-width: 48; -fx-min-height: 43; -fx-font-size: 18px; -fx-font-weight: bold;
+.filter-combo {
+    -fx-background-color: white;
+    -fx-border-color: #d5deeb;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
 }
-.app-icon-button:hover { -fx-background-color: #f2f6ff; -fx-border-color: #1769ff; }
+
+/* =========================================================
+   APP ICON BUTTONS
+   ========================================================= */
+.app-icon-button {
+    -fx-background-color: white;
+    -fx-border-color: #d4deeb;
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
+    -fx-min-width: 55;
+    -fx-min-height: 50;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+.app-icon-button:hover {
+    -fx-background-color: #e3f2fd;
+    -fx-border-color: #1769ff;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
 .selected-app { -fx-border-color: #1769ff; -fx-border-width: 2; }
+
+/* =========================================================
+   TIMER + PROGRESS
+   ========================================================= */
 .timer-label { -fx-font-size: 54px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .progress-percent { -fx-font-size: 15px; -fx-font-weight: bold; }
 .progress-bar { -fx-background-radius: 10; -fx-border-radius: 10; }
@@ -132,28 +212,44 @@
 .purple-progress .bar { -fx-background-color: linear-gradient(to right, #1769ff, #8052d2); -fx-background-radius: 10; }
 
 /* =========================================================
-   SESSION TIP, ACTIVITY CARD & TABLE
+   SESSION TIP
    ========================================================= */
 .session-tip {
-    -fx-background-color: #f3f8ff; -fx-border-color: #d4e4ff;
-    -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9 13;
+    -fx-background-color: #f3f8ff;
+    -fx-border-color: #d4e4ff;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 9 13;
 }
 .tip-icon { -fx-font-size: 20px; -fx-text-fill: #1769ff; }
 .tip-text { -fx-font-size: 13px; -fx-text-fill: #1769ff; }
+
+/* =========================================================
+   ACTIVITY CARD + TABLE
+   ========================================================= */
 .activity-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 17 14;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 17 14;
 }
 .section-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #172033; }
 .search-field {
-    -fx-background-color: white; -fx-border-color: #d5deeb;
-    -fx-border-radius: 8; -fx-background-radius: 8;
-    -fx-padding: 8 11; -fx-prompt-text-fill: #8b95a8;
+    -fx-background-color: white;
+    -fx-border-color: #d5deeb;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 11;
+    -fx-prompt-text-fill: #8b95a8;
 }
 .refresh-button { -fx-background-color: transparent; -fx-text-fill: #5b6780; -fx-font-size: 20px; }
+
 .activity-table {
-    -fx-background-color: white; -fx-border-color: #dfe5ed;
-    -fx-border-radius: 8; -fx-background-radius: 8;
+    -fx-background-color: white;
+    -fx-border-color: #dfe5ed;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
 }
 .activity-table .column-header-background { -fx-background-color: #f5f7fb; }
 .activity-table .column-header { -fx-background-color: transparent; -fx-border-color: #e0e5ed; }
@@ -164,12 +260,15 @@
 .table-footer { -fx-font-size: 12px; -fx-text-fill: #68738a; }
 
 /* =========================================================
-   RIGHT PANEL, ANALYTICS, WELLNESS & GOALS
+   RIGHT PANEL - ANALYTICS
    ========================================================= */
 .right-panel { -fx-background-color: #f7f9fd; -fx-pref-width: 390; -fx-padding: 0 12 0 0; }
 .analytics-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 17;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 17;
 }
 .info-button { -fx-background-color: transparent; -fx-text-fill: #637087; -fx-font-size: 17px; }
 .chart { -fx-padding: 5; }
@@ -178,11 +277,22 @@
 .chart-pie-label { -fx-font-size: 12px; -fx-font-weight: bold; }
 .total-label { -fx-font-size: 13px; }
 .total-value { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
+
+/* =========================================================
+   WELLNESS CARD
+   ========================================================= */
 .wellness-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 18;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 18;
 }
-.wellness-icon { -fx-background-color: #1769ff; -fx-background-radius: 50; -fx-min-width: 45; -fx-min-height: 45; }
+.wellness-icon {
+    -fx-background-color: #1769ff;
+    -fx-background-radius: 50;
+    -fx-min-width: 45; -fx-min-height: 45;
+}
 .wellness-icon-symbol { -fx-text-fill: white; -fx-font-size: 21px; }
 .wellness-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .wellness-text { -fx-font-size: 13px; -fx-text-fill: #46516a; }
@@ -190,9 +300,16 @@
 .tip-navigation { -fx-background-color: transparent; -fx-text-fill: #56637b; -fx-font-size: 22px; }
 .tip-dot { -fx-text-fill: #d1d9e6; -fx-font-size: 11px; }
 .tip-dot-active { -fx-text-fill: #1769ff; -fx-font-size: 11px; }
+
+/* =========================================================
+   GOALS CARD
+   ========================================================= */
 .goals-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 17;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 17;
 }
 .edit-goals-button { -fx-background-color: transparent; -fx-text-fill: #1769ff; -fx-font-size: 13px; }
 .goal-icon { -fx-font-size: 20px; -fx-text-fill: #263b67; -fx-min-width: 24; }
@@ -203,31 +320,52 @@
 .goal-progress-purple .bar { -fx-background-color: #8052d2; -fx-background-radius: 10; }
 
 /* =========================================================
-   BOTTOM SUMMARY & CARDS
+   BOTTOM SUMMARY BAR
    ========================================================= */
 .bottom-summary {
-    -fx-background-color: #f3f7ff; -fx-border-color: #cadcfb;
-    -fx-border-radius: 11; -fx-background-radius: 11;
-    -fx-padding: 12 22; -fx-spacing: 35;
+    -fx-background-color: #f3f7ff;
+    -fx-border-color: #cadcfb;
+    -fx-border-radius: 11;
+    -fx-background-radius: 11;
+    -fx-padding: 12 22;
+    -fx-spacing: 35;
 }
 .summary-item { -fx-padding: 3 20; }
 .summary-icon { -fx-font-size: 28px; -fx-text-fill: #1769ff; }
 .summary-number { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .summary-label { -fx-font-size: 12px; -fx-text-fill: #273249; }
 .balance-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
+
+/* =========================================================
+   STUDY / SLEEP SIMPLE CARDS
+   ========================================================= */
 .simple-card {
-    -fx-background-color: white; -fx-border-color: #dce4ef;
-    -fx-border-radius: 13; -fx-background-radius: 13; -fx-padding: 22;
+    -fx-background-color: white;
+    -fx-border-color: #dce4ef;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 22;
 }
 .page-title { -fx-font-size: 26px; -fx-font-weight: bold; }
 .page-description { -fx-font-size: 14px; -fx-text-fill: #68738a; }
 .large-stat { -fx-font-size: 35px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
 .primary-button {
-    -fx-background-color: #1769ff; -fx-text-fill: white;
-    -fx-font-size: 14px; -fx-font-weight: bold;
-    -fx-background-radius: 8; -fx-padding: 11 20;
+    -fx-background-color: #1769ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 11 20;
 }
 .primary-button:hover { -fx-background-color: #0e58dc; }
+
+/* =========================================================
+   SCROLL BARS
+   ========================================================= */
 .scroll-bar { -fx-background-color: transparent; }
 .scroll-bar .track { -fx-background-color: transparent; }
 .scroll-bar .thumb { -fx-background-color: #cbd3e0; -fx-background-radius: 10; }

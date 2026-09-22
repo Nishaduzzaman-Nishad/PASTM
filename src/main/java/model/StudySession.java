@@ -16,4 +16,5 @@ public class StudySession {
     public String getSubject() { return subject; }
     public int getMinutesStudied() { return minutesStudied; }
     public LocalDate getDate() { return date; }
+    public void setMinutesStudied(int minutesStudied) { this.minutesStudied = minutesStudied; }
 }
