@@ -18,7 +18,6 @@ public class SleepLog {
     public LocalTime getBedTime() { return bedTime; }
     public LocalTime getWakeTime() { return wakeTime; }
 
-    // Helper: returns total sleep duration in seconds (handles overnight correctly)
     private long getDiffSeconds() {
         long bedSeconds = bedTime.toSecondOfDay();
         long wakeSeconds = wakeTime.toSecondOfDay();
@@ -29,8 +28,8 @@ public class SleepLog {
 
     public long getHoursSlept() { return getDiffSeconds() / 3600; }
     public long getMinutesSlept() { return (getDiffSeconds() % 3600) / 60; }
+    public long getTotalMinutes() { return getDiffSeconds() / 60; }
 
-    // NEW: properly formatted output for the UI
     public String getFormattedDuration() {
         return getHoursSlept() + " hours " + getMinutesSlept() + " minutes";
     }

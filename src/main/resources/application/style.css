@@ -18,24 +18,19 @@
     -fx-border-color: transparent transparent #e2e7ef transparent;
     -fx-border-width: 0 0 1 0;
 }
-.app-logo {
-    -fx-background-color: #1769ff;
-    -fx-background-radius: 9;
-    -fx-min-width: 42; -fx-min-height: 42;
-}
+.app-logo { -fx-background-color: #1769ff; -fx-background-radius: 9; -fx-min-width: 42; -fx-min-height: 42; }
 .logo-symbol { -fx-text-fill: white; -fx-font-size: 23px; -fx-font-weight: bold; }
 .application-title { -fx-font-size: 21px; -fx-font-weight: bold; -fx-text-fill: #151c2c; }
 
-/* Header buttons (date, bell, profile) styled as clickable areas */
-.date-box, .notification-button, .profile-circle {
+.header-icon-button {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
+    -fx-font-size: 22px;
+    -fx-text-fill: #1e2a43;
+    -fx-min-width: 40; -fx-min-height: 40;
+    -fx-background-radius: 50;
     -fx-cursor: hand;
 }
-.date-box:hover, .notification-button:hover, .profile-circle:hover {
-    -fx-opacity: 0.85;
-}
+.header-icon-button:hover { -fx-background-color: #e3f2fd; }
 
 .date-box {
     -fx-background-color: white;
@@ -43,14 +38,19 @@
     -fx-border-radius: 9;
     -fx-background-radius: 9;
     -fx-padding: 9 13;
+    -fx-cursor: hand;
 }
+.date-box:hover { -fx-opacity: 0.85; }
 .header-icon { -fx-font-size: 19px; }
 .date-label { -fx-font-size: 15px; }
 .dropdown-arrow { -fx-font-size: 17px; }
 
 .notification-button {
+    -fx-background-color: transparent;
     -fx-min-width: 42; -fx-min-height: 42;
+    -fx-cursor: hand;
 }
+.notification-button:hover { -fx-opacity: 0.85; }
 .notification-icon { -fx-font-size: 25px; -fx-text-fill: #1e2a43; }
 .notification-badge {
     -fx-background-color: #1769ff;
@@ -62,12 +62,13 @@
     -fx-translate-x: 10;
     -fx-translate-y: -10;
 }
-
 .profile-circle {
     -fx-background-color: #e9edf5;
     -fx-background-radius: 50;
     -fx-min-width: 40; -fx-min-height: 40;
+    -fx-cursor: hand;
 }
+.profile-circle:hover { -fx-opacity: 0.85; }
 .profile-icon { -fx-font-size: 23px; -fx-text-fill: #273653; }
 
 /* =========================================================
@@ -83,7 +84,6 @@
 .sidebar-button {
     -fx-background-color: transparent;
     -fx-background-radius: 10;
-    -fx-border-radius: 10;
     -fx-alignment: CENTER_LEFT;
     -fx-text-fill: #27324a;
     -fx-font-size: 14px;
@@ -91,14 +91,24 @@
     -fx-pref-height: 42;
 }
 .sidebar-button:hover { -fx-background-color: #f0f5ff; -fx-text-fill: #1769ff; }
-.sidebar-active {
-    -fx-background-color: #e8f0ff;
-    -fx-text-fill: #0758ed;
+.sidebar-active { -fx-background-color: #e8f0ff; -fx-text-fill: #0758ed; -fx-font-weight: bold; }
+
+/* Thread Monitor special button */
+#threadMonitorBtn {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
     -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 11 13;
+    -fx-pref-height: 42;
+}
+#threadMonitorBtn:hover {
+    -fx-background-color: #fde68a;
 }
 
 /* =========================================================
-   PRODUCTIVITY SCORE CARD
+   PRODUCTIVITY SCORE
    ========================================================= */
 .score-card {
     -fx-background-color: white;
@@ -119,15 +129,14 @@
 }
 .score-number { -fx-font-size: 46px; -fx-font-weight: bold; -fx-text-fill: #26314a; }
 .score-status { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #16a354; }
-.score-message { -fx-font-size: 13px; -fx-text-fill: #46516a; }
+.score-message { -fx-font-size: 12px; -fx-text-fill: #46516a; }
 
 /* =========================================================
    MAIN CONTENT + TABS
    ========================================================= */
 .main-content { -fx-background-color: #f7f9fd; -fx-padding: 0 10 0 12; }
 .main-tabs { -fx-background-color: transparent; }
-.main-tabs .tab-header-area,
-.main-tabs .tab-header-background { -fx-background-color: transparent; }
+.main-tabs .tab-header-area, .main-tabs .tab-header-background { -fx-background-color: transparent; }
 .main-tabs .tab {
     -fx-background-color: white;
     -fx-border-color: #dce3ed;
@@ -147,23 +156,27 @@
 .tab-content { -fx-background-color: #f7f9fd; -fx-padding: 0 0 10 0; }
 
 /* =========================================================
-   SESSION CARD (Screen Time)
+   CARDS
    ========================================================= */
-.session-card {
+.session-card, .activity-card, .analytics-card, .wellness-card, .goals-card, .simple-card {
     -fx-background-color: white;
     -fx-border-color: #dce4ef;
     -fx-border-radius: 13;
     -fx-background-radius: 13;
-    -fx-padding: 23 25;
+    -fx-padding: 17;
 }
 .field-title { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #172033; }
 .secondary-label { -fx-font-size: 13px; -fx-text-fill: #68738a; }
 .progress-section { -fx-padding: 11 0 0 0; }
+.section-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #172033; }
+.page-title { -fx-font-size: 26px; -fx-font-weight: bold; }
+.page-description { -fx-font-size: 14px; -fx-text-fill: #68738a; }
+.large-stat { -fx-font-size: 35px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 
 /* =========================================================
-   COMBO BOXES
+   COMBO BOXES + TEXT FIELDS
    ========================================================= */
-.app-combo {
+.app-combo, .filter-combo {
     -fx-background-color: white;
     -fx-border-color: #d5deeb;
     -fx-border-radius: 9;
@@ -171,12 +184,15 @@
     -fx-padding: 7;
     -fx-font-size: 15px;
 }
-.app-combo:hover, .app-combo:focused { -fx-border-color: #1769ff; }
-.filter-combo {
+.app-combo:hover, .app-combo:focused,
+.filter-combo:hover, .filter-combo:focused { -fx-border-color: #1769ff; }
+.search-field {
     -fx-background-color: white;
     -fx-border-color: #d5deeb;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
+    -fx-padding: 8 11;
+    -fx-prompt-text-fill: #8b95a8;
 }
 
 /* =========================================================
@@ -199,20 +215,18 @@
     -fx-scale-x: 1.08;
     -fx-scale-y: 1.08;
 }
-.selected-app { -fx-border-color: #1769ff; -fx-border-width: 2; }
 
 /* =========================================================
-   TIMER + PROGRESS
+   TIMER + PROGRESS BARS
    ========================================================= */
-.timer-label { -fx-font-size: 54px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
-.progress-percent { -fx-font-size: 15px; -fx-font-weight: bold; }
-.progress-bar { -fx-background-radius: 10; -fx-border-radius: 10; }
+.timer-label { -fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
+.progress-bar { -fx-background-radius: 10; }
 .progress-bar .track { -fx-background-color: #e8edf4; -fx-background-radius: 10; }
 .blue-progress .bar { -fx-background-color: #1769ff; -fx-background-radius: 10; }
 .purple-progress .bar { -fx-background-color: linear-gradient(to right, #1769ff, #8052d2); -fx-background-radius: 10; }
 
 /* =========================================================
-   SESSION TIP
+   TIP BANNER
    ========================================================= */
 .session-tip {
     -fx-background-color: #f3f8ff;
@@ -225,26 +239,8 @@
 .tip-text { -fx-font-size: 13px; -fx-text-fill: #1769ff; }
 
 /* =========================================================
-   ACTIVITY CARD + TABLE
+   TABLE
    ========================================================= */
-.activity-card {
-    -fx-background-color: white;
-    -fx-border-color: #dce4ef;
-    -fx-border-radius: 13;
-    -fx-background-radius: 13;
-    -fx-padding: 17 14;
-}
-.section-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #172033; }
-.search-field {
-    -fx-background-color: white;
-    -fx-border-color: #d5deeb;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 8 11;
-    -fx-prompt-text-fill: #8b95a8;
-}
-.refresh-button { -fx-background-color: transparent; -fx-text-fill: #5b6780; -fx-font-size: 20px; }
-
 .activity-table {
     -fx-background-color: white;
     -fx-border-color: #dfe5ed;
@@ -257,42 +253,19 @@
 .activity-table .table-row-cell { -fx-background-color: white; -fx-border-color: transparent transparent #e7ebf1 transparent; }
 .activity-table .table-row-cell:hover { -fx-background-color: #f5f8ff; }
 .activity-table .table-row-cell:selected { -fx-background-color: #eaf2ff; }
-.table-footer { -fx-font-size: 12px; -fx-text-fill: #68738a; }
+.refresh-button { -fx-background-color: transparent; -fx-text-fill: #5b6780; -fx-font-size: 20px; }
 
 /* =========================================================
-   RIGHT PANEL - ANALYTICS
+   RIGHT PANEL
    ========================================================= */
 .right-panel { -fx-background-color: #f7f9fd; -fx-pref-width: 390; -fx-padding: 0 12 0 0; }
-.analytics-card {
-    -fx-background-color: white;
-    -fx-border-color: #dce4ef;
-    -fx-border-radius: 13;
-    -fx-background-radius: 13;
-    -fx-padding: 17;
-}
 .info-button { -fx-background-color: transparent; -fx-text-fill: #637087; -fx-font-size: 17px; }
 .chart { -fx-padding: 5; }
 .chart-legend { -fx-background-color: transparent; }
 .chart-legend-item { -fx-font-size: 12px; }
 .chart-pie-label { -fx-font-size: 12px; -fx-font-weight: bold; }
-.total-label { -fx-font-size: 13px; }
-.total-value { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 
-/* =========================================================
-   WELLNESS CARD
-   ========================================================= */
-.wellness-card {
-    -fx-background-color: white;
-    -fx-border-color: #dce4ef;
-    -fx-border-radius: 13;
-    -fx-background-radius: 13;
-    -fx-padding: 18;
-}
-.wellness-icon {
-    -fx-background-color: #1769ff;
-    -fx-background-radius: 50;
-    -fx-min-width: 45; -fx-min-height: 45;
-}
+.wellness-icon { -fx-background-color: #1769ff; -fx-background-radius: 50; -fx-min-width: 45; -fx-min-height: 45; }
 .wellness-icon-symbol { -fx-text-fill: white; -fx-font-size: 21px; }
 .wellness-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .wellness-text { -fx-font-size: 13px; -fx-text-fill: #46516a; }
@@ -301,16 +274,6 @@
 .tip-dot { -fx-text-fill: #d1d9e6; -fx-font-size: 11px; }
 .tip-dot-active { -fx-text-fill: #1769ff; -fx-font-size: 11px; }
 
-/* =========================================================
-   GOALS CARD
-   ========================================================= */
-.goals-card {
-    -fx-background-color: white;
-    -fx-border-color: #dce4ef;
-    -fx-border-radius: 13;
-    -fx-background-radius: 13;
-    -fx-padding: 17;
-}
 .edit-goals-button { -fx-background-color: transparent; -fx-text-fill: #1769ff; -fx-font-size: 13px; }
 .goal-icon { -fx-font-size: 20px; -fx-text-fill: #263b67; -fx-min-width: 24; }
 .goal-name { -fx-font-size: 13px; -fx-text-fill: #344054; }
@@ -320,7 +283,7 @@
 .goal-progress-purple .bar { -fx-background-color: #8052d2; -fx-background-radius: 10; }
 
 /* =========================================================
-   BOTTOM SUMMARY BAR
+   BOTTOM SUMMARY
    ========================================================= */
 .bottom-summary {
     -fx-background-color: #f3f7ff;
@@ -335,20 +298,6 @@
 .summary-number { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .summary-label { -fx-font-size: 12px; -fx-text-fill: #273249; }
 .balance-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
-
-/* =========================================================
-   STUDY / SLEEP SIMPLE CARDS
-   ========================================================= */
-.simple-card {
-    -fx-background-color: white;
-    -fx-border-color: #dce4ef;
-    -fx-border-radius: 13;
-    -fx-background-radius: 13;
-    -fx-padding: 22;
-}
-.page-title { -fx-font-size: 26px; -fx-font-weight: bold; }
-.page-description { -fx-font-size: 14px; -fx-text-fill: #68738a; }
-.large-stat { -fx-font-size: 35px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 
 /* =========================================================
    PRIMARY BUTTON
@@ -370,3 +319,85 @@
 .scroll-bar .track { -fx-background-color: transparent; }
 .scroll-bar .thumb { -fx-background-color: #cbd3e0; -fx-background-radius: 10; }
 .scroll-bar .thumb:hover { -fx-background-color: #aeb9ca; }
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+.dark-mode { -fx-background-color: #1e2a38; }
+.dark-mode .main-content { -fx-background-color: #1e2a38; }
+.dark-mode .label { -fx-text-fill: #e2e8f0; }
+.dark-mode .application-title { -fx-text-fill: #e2e8f0; }
+.dark-mode .top-header { -fx-background-color: #263445; -fx-border-color: transparent transparent #34495e transparent; }
+.dark-mode .date-box { -fx-background-color: #34495e; -fx-border-color: #4a5d73; }
+.dark-mode .date-label, .dark-mode .header-icon, .dark-mode .dropdown-arrow { -fx-text-fill: #e2e8f0; }
+.dark-mode .notification-icon, .dark-mode .profile-icon { -fx-text-fill: #e2e8f0; }
+.dark-mode .header-icon-button { -fx-text-fill: #e2e8f0; }
+.dark-mode .header-icon-button:hover { -fx-background-color: #34495e; }
+.dark-mode .profile-circle { -fx-background-color: #34495e; }
+
+.dark-mode .sidebar { -fx-background-color: #263445; -fx-border-color: transparent #34495e transparent transparent; }
+.dark-mode .sidebar-button { -fx-text-fill: #cbd5e0; }
+.dark-mode .sidebar-button:hover { -fx-background-color: #34495e; -fx-text-fill: #7aa7ff; }
+.dark-mode .sidebar-active { -fx-background-color: #34495e; -fx-text-fill: #7aa7ff; }
+
+.dark-mode #threadMonitorBtn {
+    -fx-background-color: #78350f;
+    -fx-text-fill: #fde68a;
+}
+.dark-mode #threadMonitorBtn:hover {
+    -fx-background-color: #92400e;
+}
+
+.dark-mode .session-card,
+.dark-mode .activity-card,
+.dark-mode .analytics-card,
+.dark-mode .wellness-card,
+.dark-mode .goals-card,
+.dark-mode .simple-card,
+.dark-mode .score-card {
+    -fx-background-color: #263445;
+    -fx-border-color: #34495e;
+}
+.dark-mode .score-circle { -fx-background-color: #1e2a38; }
+.dark-mode .score-number, .dark-mode .large-stat, .dark-mode .timer-label { -fx-text-fill: #7aa7ff; }
+.dark-mode .score-title, .dark-mode .wellness-title, .dark-mode .total-value { -fx-text-fill: #7aa7ff; }
+.dark-mode .field-title, .dark-mode .section-title, .dark-mode .page-title { -fx-text-fill: #e2e8f0; }
+.dark-mode .secondary-label, .dark-mode .page-description,
+.dark-mode .wellness-text, .dark-mode .wellness-description,
+.dark-mode .score-message, .dark-mode .summary-label { -fx-text-fill: #a0aec0; }
+
+.dark-mode .main-tabs .tab { -fx-background-color: #263445; -fx-border-color: #34495e; }
+.dark-mode .main-tabs .tab-label { -fx-text-fill: #a0aec0; }
+.dark-mode .main-tabs .tab:selected { -fx-background-color: #1e2a38; -fx-border-color: #34495e #34495e #7aa7ff #34495e; }
+.dark-mode .main-tabs .tab:selected .tab-label { -fx-text-fill: #7aa7ff; }
+
+.dark-mode .content-scroll > .viewport { -fx-background-color: #1e2a38; }
+.dark-mode .tab-content { -fx-background-color: #1e2a38; }
+
+.dark-mode .app-combo, .dark-mode .filter-combo, .dark-mode .search-field {
+    -fx-background-color: #34495e;
+    -fx-border-color: #4a5d73;
+    -fx-text-fill: #e2e8f0;
+    -fx-prompt-text-fill: #8899aa;
+}
+
+.dark-mode .app-icon-button { -fx-background-color: #34495e; -fx-border-color: #4a5d73; -fx-text-fill: #e2e8f0; }
+.dark-mode .app-icon-button:hover { -fx-background-color: #4a5d73; -fx-border-color: #7aa7ff; }
+
+.dark-mode .activity-table { -fx-background-color: #263445; -fx-border-color: #34495e; }
+.dark-mode .activity-table .column-header-background { -fx-background-color: #34495e; }
+.dark-mode .activity-table .column-header { -fx-background-color: transparent; -fx-border-color: #4a5d73; }
+.dark-mode .activity-table .column-header .label { -fx-text-fill: #e2e8f0; }
+.dark-mode .activity-table .table-row-cell { -fx-background-color: #263445; -fx-text-fill: #cbd5e0; -fx-border-color: transparent transparent #34495e transparent; }
+.dark-mode .activity-table .table-row-cell:hover { -fx-background-color: #34495e; }
+.dark-mode .activity-table .table-row-cell:selected { -fx-background-color: #3d5a80; }
+.dark-mode .activity-table .table-cell { -fx-text-fill: #cbd5e0; }
+
+.dark-mode .session-tip { -fx-background-color: #2a3b52; -fx-border-color: #3d5a80; }
+.dark-mode .tip-text, .dark-mode .tip-icon { -fx-text-fill: #7aa7ff; }
+
+.dark-mode .bottom-summary { -fx-background-color: #263445; -fx-border-color: #34495e; }
+.dark-mode .summary-icon, .dark-mode .summary-number, .dark-mode .balance-title { -fx-text-fill: #7aa7ff; }
+
+.dark-mode .progress-bar .track { -fx-background-color: #34495e; }
+.dark-mode .chart-legend-item { -fx-text-fill: #cbd5e0; }
