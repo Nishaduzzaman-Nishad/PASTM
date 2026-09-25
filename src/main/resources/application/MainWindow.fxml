@@ -26,48 +26,46 @@
     <top>
         <HBox styleClass="top-header" alignment="CENTER_LEFT">
             <StackPane styleClass="app-logo">
-                <Label text="▥" styleClass="logo-symbol"/>
+                <Label text="P" styleClass="logo-symbol"/>
             </StackPane>
             <Label text="Personalized Activity and Screen Time Manager" styleClass="application-title"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="darkModeBtn" text="☾" styleClass="header-icon-button" onAction="#toggleDarkMode"/>
+            <Button fx:id="darkModeBtn" text="Dark Mode" styleClass="header-icon-button" onAction="#toggleDarkMode"/>
             <Button fx:id="dateBoxBtn" styleClass="date-box" onAction="#showDate">
                 <graphic>
                     <HBox alignment="CENTER" spacing="10">
-                        <Label text="▣" styleClass="header-icon"/>
                         <Label text="Today" styleClass="date-label"/>
-                        <Label text="⌄" styleClass="dropdown-arrow"/>
                     </HBox>
                 </graphic>
             </Button>
             <Button fx:id="notificationBtn" styleClass="notification-button" onAction="#showNotifications">
                 <graphic>
                     <StackPane>
-                        <Label text="♧" styleClass="notification-icon"/>
+                        <Label text="Bell" styleClass="notification-icon"/>
                         <Label text="3" styleClass="notification-badge"/>
                     </StackPane>
                 </graphic>
             </Button>
             <Button fx:id="profileBtn" styleClass="profile-circle" onAction="#showProfile">
-                <graphic><Label text="●" styleClass="profile-icon"/></graphic>
+                <graphic><Label text="U" styleClass="profile-icon"/></graphic>
             </Button>
         </HBox>
     </top>
 
     <left>
         <VBox styleClass="sidebar" spacing="7">
-            <Button text="⌂    Dashboard" styleClass="sidebar-button sidebar-active" onAction="#goHome"/>
-            <Button fx:id="goalsBtn" text="◎    Goals" styleClass="sidebar-button" onAction="#openGoalsWindow"/>
-            <Button fx:id="focusModeButton" text="⊕    Focus Mode" styleClass="sidebar-button" onAction="#toggleFocusMode"/>
-            <Button fx:id="historyBtn" text="◷    History" styleClass="sidebar-button" onAction="#openHistoryWindow"/>
-            <Button fx:id="achievementsBtn" text="♜    Achievements" styleClass="sidebar-button" onAction="#openAchievementsWindow"/>
-            <Button fx:id="reportsBtn" text="▥    Reports" styleClass="sidebar-button" onAction="#openReportsWindow"/>
-            <Button fx:id="threadMonitorBtn" text="⚡    Thread Monitor" styleClass="sidebar-button" onAction="#openThreadMonitor"/>
-            <Button fx:id="settingsBtn" text="⚙    Settings" styleClass="sidebar-button" onAction="#openSettingsWindow"/>
+            <Button text="Dashboard" styleClass="sidebar-button sidebar-active" onAction="#goHome"/>
+            <Button fx:id="goalsBtn" text="Goals" styleClass="sidebar-button" onAction="#openGoalsWindow"/>
+            <Button fx:id="focusModeButton" text="Focus Mode" styleClass="sidebar-button" onAction="#toggleFocusMode"/>
+            <Button fx:id="historyBtn" text="History" styleClass="sidebar-button" onAction="#openHistoryWindow"/>
+            <Button fx:id="achievementsBtn" text="Achievements" styleClass="sidebar-button" onAction="#openAchievementsWindow"/>
+            <Button fx:id="reportsBtn" text="Reports" styleClass="sidebar-button" onAction="#openReportsWindow"/>
+            <Button fx:id="threadMonitorBtn" text="Thread Monitor" styleClass="sidebar-button" onAction="#openThreadMonitor"/>
+            <Button fx:id="settingsBtn" text="Settings" styleClass="sidebar-button" onAction="#openSettingsWindow"/>
             <Region VBox.vgrow="ALWAYS"/>
             <VBox styleClass="score-card" alignment="CENTER" spacing="8">
                 <Label text="Productivity Score" styleClass="score-title"/>
-                <StackPane styleClass="score-circle">
+                <StackPane styleClass="score-circle score-low">
                     <Label fx:id="scoreNumber" text="0" styleClass="score-number"/>
                 </StackPane>
                 <Label fx:id="scoreStatus" text="No goals set" styleClass="score-status"/>
@@ -80,7 +78,7 @@
         <VBox styleClass="main-content">
             <TabPane fx:id="mainTabPane" styleClass="main-tabs" tabClosingPolicy="UNAVAILABLE">
 
-                <Tab text="▱   Screen Time">
+                <Tab text="Screen Time">
                     <StackPane fx:id="screenTimeStack">
                         <VBox fx:id="screenTimeContent">
                             <ScrollPane fitToWidth="true" styleClass="content-scroll">
@@ -91,10 +89,10 @@
                                             <ComboBox fx:id="appComboBox" promptText="Select App..." styleClass="app-combo" maxWidth="1.7976931348623157E308"/>
                                             <Label text="Or click an app to open:" styleClass="secondary-label"/>
                                             <HBox spacing="8">
-                                                <Button fx:id="facebookIcon" text="f" styleClass="app-icon-button"/>
-                                                <Button fx:id="youtubeIcon" text="▶" styleClass="app-icon-button"/>
-                                                <Button fx:id="instagramIcon" text="◎" styleClass="app-icon-button"/>
-                                                <Button fx:id="whatsappIcon" text="●" styleClass="app-icon-button"/>
+                                                <Button fx:id="facebookIcon" text="F" styleClass="app-icon-button"/>
+                                                <Button fx:id="youtubeIcon" text="Y" styleClass="app-icon-button"/>
+                                                <Button fx:id="instagramIcon" text="I" styleClass="app-icon-button"/>
+                                                <Button fx:id="whatsappIcon" text="W" styleClass="app-icon-button"/>
                                                 <Button fx:id="chromeIcon" text="C" styleClass="app-icon-button"/>
                                             </HBox>
                                         </VBox>
@@ -109,8 +107,8 @@
                                         </VBox>
                                     </HBox>
                                     <HBox styleClass="session-tip" alignment="CENTER_LEFT" spacing="10">
-                                        <Label text="♧" styleClass="tip-icon"/>
-                                        <Label fx:id="tipLabel" text="Tip: You've used YouTube for 30 minutes today." styleClass="tip-text"/>
+                                        <Label text="Tip:" styleClass="tip-icon"/>
+                                        <Label fx:id="tipLabel" text="Tip: Take regular breaks." styleClass="tip-text"/>
                                     </HBox>
                                     <VBox styleClass="activity-card" spacing="10">
                                         <HBox alignment="CENTER_LEFT" spacing="10">
@@ -118,7 +116,7 @@
                                             <Region HBox.hgrow="ALWAYS"/>
                                             <TextField fx:id="searchField" promptText="Search..." prefWidth="200" styleClass="search-field"/>
                                             <ComboBox fx:id="filterComboBox" prefWidth="135" styleClass="filter-combo"/>
-                                            <Button text="↻" styleClass="refresh-button" onAction="#refreshTable"/>
+                                            <Button text="R" styleClass="refresh-button" onAction="#refreshTable"/>
                                         </HBox>
                                         <TableView fx:id="activityTable" prefHeight="300" styleClass="activity-table">
                                             <columns>
@@ -136,7 +134,7 @@
                               style="-fx-background-color: white; -fx-background-radius: 14;">
                             <VBox fx:id="previewHeader" spacing="10" style="-fx-padding: 20;">
                                 <HBox alignment="CENTER_LEFT" spacing="15">
-                                    <Button fx:id="previewBackBtn" text="← Back to Home"/>
+                                    <Button fx:id="previewBackBtn" text="Back to Home"/>
                                     <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 <Label fx:id="previewAppNameLabel" text="App"/>
@@ -144,13 +142,14 @@
                             </VBox>
                             <VBox alignment="CENTER" VBox.vgrow="ALWAYS"
                                   style="-fx-padding: 60; -fx-background-color: #f7f9fd;">
-                                <Label fx:id="previewContentTitle" text="Content" wrapText="true"/>
+                                <Label fx:id="previewContentTitle" text="Content" wrapText="true"
+                                       style="-fx-font-size: 18px; -fx-text-fill: #68738a;"/>
                             </VBox>
                         </VBox>
                     </StackPane>
                 </Tab>
 
-                <Tab text="▤   Study Sessions">
+                <Tab text="Study Sessions">
                     <ScrollPane fitToWidth="true" styleClass="content-scroll">
                         <VBox styleClass="tab-content" spacing="18">
                             <Label text="Study Session" styleClass="page-title"/>
@@ -162,7 +161,7 @@
                                     <Separator/>
                                     <Label text="Session Timer" styleClass="field-title"/>
                                     <Label fx:id="studyTimerLabel" text="00:00:00" styleClass="large-stat"/>
-                                    <Button fx:id="studyToggleButton" text="▶   Start Focus Session" styleClass="primary-button" onAction="#toggleStudySession"/>
+                                    <Button fx:id="studyToggleButton" text="Start Study Session" styleClass="primary-button" onAction="#toggleStudySession"/>
                                 </VBox>
                                 <VBox styleClass="simple-card" spacing="10" prefWidth="250">
                                     <Label text="Session Stats" styleClass="field-title"/>
@@ -177,11 +176,11 @@
                     </ScrollPane>
                 </Tab>
 
-                <Tab text="☾   Sleep Time">
+                <Tab text="Sleep Time">
                     <ScrollPane fitToWidth="true" styleClass="content-scroll">
                         <VBox styleClass="tab-content" spacing="18">
                             <Label text="Sleep Time" styleClass="page-title"/>
-                            <Label text="Calculate your sleep duration — it will be added to your activity log." styleClass="page-description"/>
+                            <Label text="Calculate your sleep duration - it will be added to your activity log." styleClass="page-description"/>
                             <VBox styleClass="simple-card" spacing="15" maxWidth="650">
                                 <Label text="Bedtime:" styleClass="field-title"/>
                                 <HBox spacing="12">
@@ -196,7 +195,7 @@
                                     <ComboBox fx:id="wakeMinuteCombo" promptText="MM" prefWidth="100" styleClass="app-combo"/>
                                 </HBox>
                                 <Separator/>
-                                <Button text="☾   Calculate and Save" styleClass="primary-button" onAction="#calculateSleep"/>
+                                <Button text="Calculate and Save" styleClass="primary-button" onAction="#calculateSleep"/>
                                 <HBox spacing="10">
                                     <Label text="Result:" styleClass="field-title"/>
                                     <Label fx:id="sleepResultLabel" styleClass="large-stat" text="--"/>
@@ -215,27 +214,27 @@
                 <HBox alignment="CENTER_LEFT">
                     <Label text="24-Hour Activity Breakdown" styleClass="section-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="infoButton" text="ⓘ" styleClass="info-button" onAction="#showPieInfo"/>
+                    <Button fx:id="infoButton" text="i" styleClass="info-button" onAction="#showPieInfo"/>
                 </HBox>
                 <PieChart fx:id="activityPieChart" legendVisible="true" labelsVisible="true" startAngle="90" prefHeight="275"/>
             </VBox>
             <VBox styleClass="wellness-card" spacing="10">
                 <HBox spacing="12" alignment="CENTER_LEFT">
                     <StackPane styleClass="wellness-icon">
-                        <Label text="♧" styleClass="wellness-icon-symbol"/>
+                        <Label text="T" styleClass="wellness-icon-symbol"/>
                     </StackPane>
                     <Label text="Daily Wellness Tip" styleClass="wellness-title"/>
                 </HBox>
                 <Label text="Try the 20-20-20 rule:" styleClass="wellness-text"/>
                 <Label text="Every 20 minutes, look at something 20 feet away for 20 seconds." wrapText="true" styleClass="wellness-description"/>
                 <HBox alignment="CENTER" spacing="7">
-                    <Button fx:id="prevTipBtn" text="‹" styleClass="tip-navigation" onAction="#prevTip"/>
+                    <Button fx:id="prevTipBtn" text="&lt;" styleClass="tip-navigation" onAction="#prevTip"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Label text="●" styleClass="tip-dot-active"/>
-                    <Label text="●" styleClass="tip-dot"/>
-                    <Label text="●" styleClass="tip-dot"/>
+                    <Label text="." styleClass="tip-dot-active"/>
+                    <Label text="." styleClass="tip-dot"/>
+                    <Label text="." styleClass="tip-dot"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="nextTipBtn" text="›" styleClass="tip-navigation" onAction="#nextTip"/>
+                    <Button fx:id="nextTipBtn" text="&gt;" styleClass="tip-navigation" onAction="#nextTip"/>
                 </HBox>
             </VBox>
             <VBox styleClass="goals-card" spacing="14">
@@ -245,21 +244,18 @@
                     <Button fx:id="editGoalsBtn" text="Manage" styleClass="edit-goals-button" onAction="#openEditGoals"/>
                 </HBox>
                 <HBox spacing="9" alignment="CENTER_LEFT">
-                    <Label text="▤" styleClass="goal-icon"/>
                     <Label text="Study" styleClass="goal-name"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <ProgressBar fx:id="goalStudyBar" progress="0" prefWidth="115" styleClass="goal-progress-purple"/>
                     <Label fx:id="goalStudyValue" text="No goal" styleClass="goal-value"/>
                 </HBox>
                 <HBox spacing="9" alignment="CENTER_LEFT">
-                    <Label text="▱" styleClass="goal-icon"/>
                     <Label text="Screen" styleClass="goal-name"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <ProgressBar fx:id="goalScreenBar" progress="0" prefWidth="115" styleClass="goal-progress-blue"/>
                     <Label fx:id="goalScreenValue" text="No goal" styleClass="goal-value"/>
                 </HBox>
                 <HBox spacing="9" alignment="CENTER_LEFT">
-                    <Label text="☾" styleClass="goal-icon"/>
                     <Label text="Sleep" styleClass="goal-name"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <ProgressBar fx:id="goalSleepBar" progress="0" prefWidth="115" styleClass="goal-progress-purple"/>
@@ -272,7 +268,6 @@
     <bottom>
         <HBox styleClass="bottom-summary" alignment="CENTER">
             <HBox styleClass="summary-item" alignment="CENTER" spacing="10">
-                <Label text="♨" styleClass="summary-icon"/>
                 <VBox spacing="0">
                     <Label fx:id="streakLabel" text="0" styleClass="summary-number"/>
                     <Label text="Active Today" styleClass="summary-label"/>
@@ -280,7 +275,6 @@
             </HBox>
             <Separator orientation="VERTICAL"/>
             <HBox styleClass="summary-item" alignment="CENTER" spacing="10">
-                <Label text="♜" styleClass="summary-icon"/>
                 <VBox spacing="0">
                     <Label fx:id="achieveLabel" text="0" styleClass="summary-number"/>
                     <Label text="Achievements" styleClass="summary-label"/>
@@ -288,7 +282,6 @@
             </HBox>
             <Separator orientation="VERTICAL"/>
             <HBox styleClass="summary-item" alignment="CENTER" spacing="10">
-                <Label text="◷" styleClass="summary-icon"/>
                 <VBox spacing="0">
                     <Label fx:id="sessionsLabel" text="0" styleClass="summary-number"/>
                     <Label text="Sessions Today" styleClass="summary-label"/>
@@ -296,7 +289,6 @@
             </HBox>
             <Separator orientation="VERTICAL"/>
             <HBox styleClass="summary-item" alignment="CENTER" spacing="10">
-                <Label text="☺" styleClass="summary-icon"/>
                 <VBox spacing="0">
                     <Label fx:id="balanceLabel" text="Get Started" styleClass="balance-title"/>
                     <Label fx:id="balanceSubLabel" text="Do an activity to begin" styleClass="summary-label"/>

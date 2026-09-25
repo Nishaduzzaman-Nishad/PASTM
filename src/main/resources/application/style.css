@@ -24,11 +24,12 @@
 
 .header-icon-button {
     -fx-background-color: transparent;
-    -fx-font-size: 22px;
+    -fx-font-size: 14px;
     -fx-text-fill: #1e2a43;
-    -fx-min-width: 40; -fx-min-height: 40;
-    -fx-background-radius: 50;
+    -fx-min-width: 80; -fx-min-height: 40;
+    -fx-background-radius: 20;
     -fx-cursor: hand;
+    -fx-font-weight: bold;
 }
 .header-icon-button:hover { -fx-background-color: #e3f2fd; }
 
@@ -41,17 +42,10 @@
     -fx-cursor: hand;
 }
 .date-box:hover { -fx-opacity: 0.85; }
-.header-icon { -fx-font-size: 19px; }
 .date-label { -fx-font-size: 15px; }
-.dropdown-arrow { -fx-font-size: 17px; }
-
-.notification-button {
-    -fx-background-color: transparent;
-    -fx-min-width: 42; -fx-min-height: 42;
-    -fx-cursor: hand;
-}
+.notification-button { -fx-background-color: transparent; -fx-min-width: 42; -fx-min-height: 42; -fx-cursor: hand; }
 .notification-button:hover { -fx-opacity: 0.85; }
-.notification-icon { -fx-font-size: 25px; -fx-text-fill: #1e2a43; }
+.notification-icon { -fx-font-size: 14px; -fx-text-fill: #1e2a43; -fx-font-weight: bold; }
 .notification-badge {
     -fx-background-color: #1769ff;
     -fx-background-radius: 20;
@@ -68,8 +62,7 @@
     -fx-min-width: 40; -fx-min-height: 40;
     -fx-cursor: hand;
 }
-.profile-circle:hover { -fx-opacity: 0.85; }
-.profile-icon { -fx-font-size: 23px; -fx-text-fill: #273653; }
+.profile-icon { -fx-font-size: 16px; -fx-text-fill: #273653; -fx-font-weight: bold; }
 
 /* =========================================================
    SIDEBAR
@@ -93,20 +86,6 @@
 .sidebar-button:hover { -fx-background-color: #f0f5ff; -fx-text-fill: #1769ff; }
 .sidebar-active { -fx-background-color: #e8f0ff; -fx-text-fill: #0758ed; -fx-font-weight: bold; }
 
-/* Thread Monitor special button */
-#threadMonitorBtn {
-    -fx-background-color: #fef3c7;
-    -fx-text-fill: #92400e;
-    -fx-font-weight: bold;
-    -fx-background-radius: 10;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 11 13;
-    -fx-pref-height: 42;
-}
-#threadMonitorBtn:hover {
-    -fx-background-color: #fde68a;
-}
-
 /* =========================================================
    PRODUCTIVITY SCORE
    ========================================================= */
@@ -120,19 +99,21 @@
 .score-title { -fx-text-fill: #1769ff; -fx-font-size: 14px; -fx-font-weight: bold; }
 .score-circle {
     -fx-background-color: #f4f7fa;
-    -fx-border-color: #18a957;
     -fx-border-width: 7;
     -fx-border-radius: 100;
     -fx-background-radius: 100;
     -fx-min-width: 116; -fx-min-height: 116;
     -fx-max-width: 116; -fx-max-height: 116;
 }
+.score-circle.score-low { -fx-border-color: #ef4444; }
+.score-circle.score-mid { -fx-border-color: #f59e0b; }
+.score-circle.score-high { -fx-border-color: #18a957; }
 .score-number { -fx-font-size: 46px; -fx-font-weight: bold; -fx-text-fill: #26314a; }
 .score-status { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #16a354; }
 .score-message { -fx-font-size: 12px; -fx-text-fill: #46516a; }
 
 /* =========================================================
-   MAIN CONTENT + TABS
+   TABS
    ========================================================= */
 .main-content { -fx-background-color: #f7f9fd; -fx-padding: 0 10 0 12; }
 .main-tabs { -fx-background-color: transparent; }
@@ -205,15 +186,14 @@
     -fx-background-radius: 9;
     -fx-min-width: 55;
     -fx-min-height: 50;
-    -fx-font-size: 22px;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: #26314a;
 }
 .app-icon-button:hover {
     -fx-background-color: #e3f2fd;
     -fx-border-color: #1769ff;
     -fx-cursor: hand;
-    -fx-scale-x: 1.08;
-    -fx-scale-y: 1.08;
 }
 
 /* =========================================================
@@ -235,7 +215,7 @@
     -fx-background-radius: 8;
     -fx-padding: 9 13;
 }
-.tip-icon { -fx-font-size: 20px; -fx-text-fill: #1769ff; }
+.tip-icon { -fx-font-size: 13px; -fx-text-fill: #1769ff; -fx-font-weight: bold; }
 .tip-text { -fx-font-size: 13px; -fx-text-fill: #1769ff; }
 
 /* =========================================================
@@ -253,20 +233,20 @@
 .activity-table .table-row-cell { -fx-background-color: white; -fx-border-color: transparent transparent #e7ebf1 transparent; }
 .activity-table .table-row-cell:hover { -fx-background-color: #f5f8ff; }
 .activity-table .table-row-cell:selected { -fx-background-color: #eaf2ff; }
-.refresh-button { -fx-background-color: transparent; -fx-text-fill: #5b6780; -fx-font-size: 20px; }
+.refresh-button { -fx-background-color: transparent; -fx-text-fill: #5b6780; -fx-font-size: 16px; -fx-font-weight: bold; }
 
 /* =========================================================
    RIGHT PANEL
    ========================================================= */
 .right-panel { -fx-background-color: #f7f9fd; -fx-pref-width: 390; -fx-padding: 0 12 0 0; }
-.info-button { -fx-background-color: transparent; -fx-text-fill: #637087; -fx-font-size: 17px; }
+.info-button { -fx-background-color: transparent; -fx-text-fill: #637087; -fx-font-size: 14px; -fx-font-weight: bold; }
 .chart { -fx-padding: 5; }
 .chart-legend { -fx-background-color: transparent; }
 .chart-legend-item { -fx-font-size: 12px; }
 .chart-pie-label { -fx-font-size: 12px; -fx-font-weight: bold; }
 
 .wellness-icon { -fx-background-color: #1769ff; -fx-background-radius: 50; -fx-min-width: 45; -fx-min-height: 45; }
-.wellness-icon-symbol { -fx-text-fill: white; -fx-font-size: 21px; }
+.wellness-icon-symbol { -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; }
 .wellness-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .wellness-text { -fx-font-size: 13px; -fx-text-fill: #46516a; }
 .wellness-description { -fx-font-size: 13px; -fx-text-fill: #46516a; -fx-line-spacing: 3; }
@@ -275,7 +255,6 @@
 .tip-dot-active { -fx-text-fill: #1769ff; -fx-font-size: 11px; }
 
 .edit-goals-button { -fx-background-color: transparent; -fx-text-fill: #1769ff; -fx-font-size: 13px; }
-.goal-icon { -fx-font-size: 20px; -fx-text-fill: #263b67; -fx-min-width: 24; }
 .goal-name { -fx-font-size: 13px; -fx-text-fill: #344054; }
 .goal-value { -fx-font-size: 11px; -fx-text-fill: #46516a; -fx-min-width: 65; }
 .goal-progress-blue .track, .goal-progress-purple .track { -fx-background-color: #e4e9f1; -fx-background-radius: 10; }
@@ -294,7 +273,6 @@
     -fx-spacing: 35;
 }
 .summary-item { -fx-padding: 3 20; }
-.summary-icon { -fx-font-size: 28px; -fx-text-fill: #1769ff; }
 .summary-number { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
 .summary-label { -fx-font-size: 12px; -fx-text-fill: #273249; }
 .balance-title { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1769ff; }
@@ -321,6 +299,18 @@
 .scroll-bar .thumb:hover { -fx-background-color: #aeb9ca; }
 
 /* =========================================================
+   PIE CHART SLICE COLORS (fixed order)
+   ========================================================= */
+.default-color0.chart-pie { -fx-pie-color: #1769ff; }
+.default-color1.chart-pie { -fx-pie-color: #18a957; }
+.default-color2.chart-pie { -fx-pie-color: #8052d2; }
+.default-color3.chart-pie { -fx-pie-color: #f59e0b; }
+.chart-pie-label { -fx-fill: #202a3e; -fx-font-size: 11px; }
+.chart-pie-label-line { -fx-stroke: #8793a7; }
+.chart-legend-item { -fx-text-fill: #172033; }
+.chart-legend-item .label { -fx-text-fill: #172033; }
+
+/* =========================================================
    DARK MODE
    ========================================================= */
 .dark-mode { -fx-background-color: #1e2a38; }
@@ -329,7 +319,7 @@
 .dark-mode .application-title { -fx-text-fill: #e2e8f0; }
 .dark-mode .top-header { -fx-background-color: #263445; -fx-border-color: transparent transparent #34495e transparent; }
 .dark-mode .date-box { -fx-background-color: #34495e; -fx-border-color: #4a5d73; }
-.dark-mode .date-label, .dark-mode .header-icon, .dark-mode .dropdown-arrow { -fx-text-fill: #e2e8f0; }
+.dark-mode .date-label { -fx-text-fill: #e2e8f0; }
 .dark-mode .notification-icon, .dark-mode .profile-icon { -fx-text-fill: #e2e8f0; }
 .dark-mode .header-icon-button { -fx-text-fill: #e2e8f0; }
 .dark-mode .header-icon-button:hover { -fx-background-color: #34495e; }
@@ -339,14 +329,6 @@
 .dark-mode .sidebar-button { -fx-text-fill: #cbd5e0; }
 .dark-mode .sidebar-button:hover { -fx-background-color: #34495e; -fx-text-fill: #7aa7ff; }
 .dark-mode .sidebar-active { -fx-background-color: #34495e; -fx-text-fill: #7aa7ff; }
-
-.dark-mode #threadMonitorBtn {
-    -fx-background-color: #78350f;
-    -fx-text-fill: #fde68a;
-}
-.dark-mode #threadMonitorBtn:hover {
-    -fx-background-color: #92400e;
-}
 
 .dark-mode .session-card,
 .dark-mode .activity-card,
@@ -360,7 +342,7 @@
 }
 .dark-mode .score-circle { -fx-background-color: #1e2a38; }
 .dark-mode .score-number, .dark-mode .large-stat, .dark-mode .timer-label { -fx-text-fill: #7aa7ff; }
-.dark-mode .score-title, .dark-mode .wellness-title, .dark-mode .total-value { -fx-text-fill: #7aa7ff; }
+.dark-mode .score-title, .dark-mode .wellness-title { -fx-text-fill: #7aa7ff; }
 .dark-mode .field-title, .dark-mode .section-title, .dark-mode .page-title { -fx-text-fill: #e2e8f0; }
 .dark-mode .secondary-label, .dark-mode .page-description,
 .dark-mode .wellness-text, .dark-mode .wellness-description,
@@ -397,33 +379,16 @@
 .dark-mode .tip-text, .dark-mode .tip-icon { -fx-text-fill: #7aa7ff; }
 
 .dark-mode .bottom-summary { -fx-background-color: #263445; -fx-border-color: #34495e; }
-.dark-mode .summary-icon, .dark-mode .summary-number, .dark-mode .balance-title { -fx-text-fill: #7aa7ff; }
+.dark-mode .summary-number, .dark-mode .balance-title { -fx-text-fill: #7aa7ff; }
 
 .dark-mode .progress-bar .track { -fx-background-color: #34495e; }
-.dark-mode .chart-legend-item { -fx-text-fill: #cbd5e0; }
-
-/* ===== Chart fixes for BOTH light and dark ===== */
-.chart { -fx-background-color: transparent; }
-.chart-content { -fx-background-color: transparent; }
-.chart-plot-background { -fx-background-color: transparent; }
-.chart-pie-label { -fx-fill: #202a3e; -fx-font-size: 11px; }
-.chart-pie-label-line { -fx-stroke: #8793a7; -fx-fill: #8793a7; }
-.chart-legend { -fx-background-color: transparent; }
-.chart-legend-item { -fx-text-fill: #172033; }
-.chart-legend-item-symbol { -fx-background-radius: 4; }
-
-/* ===== DARK MODE chart overrides ===== */
-.dark-mode .chart-pie-label { -fx-fill: #e2e8f0; }
-.dark-mode .chart-pie-label-line { -fx-stroke: #a0aec0; -fx-fill: #a0aec0; }
 .dark-mode .chart-legend-item { -fx-text-fill: #e2e8f0; }
 .dark-mode .chart-legend-item .label { -fx-text-fill: #e2e8f0; }
-.dark-mode .chart .axis { -fx-tick-label-fill: #e2e8f0; }
+.dark-mode .chart-pie-label { -fx-fill: #e2e8f0; }
+.dark-mode .chart-pie-label-line { -fx-stroke: #a0aec0; }
 .dark-mode .chart-title { -fx-text-fill: #e2e8f0; }
 
-/* Pie slice colors — bright enough to see in both themes */
-.default-color0.chart-pie { -fx-pie-color: #1769ff; } /* Screen */
-.default-color1.chart-pie { -fx-pie-color: #18a957; } /* Study */
-.default-color2.chart-pie { -fx-pie-color: #8052d2; } /* Sleep */
-.default-color3.chart-pie { -fx-pie-color: #f59e0b; } /* Free / placeholder */
-
-
+/* Score ring border color states in dark mode */
+.dark-mode .score-circle.score-low { -fx-border-color: #ef4444; }
+.dark-mode .score-circle.score-mid { -fx-border-color: #f59e0b; }
+.dark-mode .score-circle.score-high { -fx-border-color: #18a957; }

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -13,24 +12,23 @@
       spacing="15"
       style="-fx-background-color: #f7f9fd; -fx-padding: 25;">
 
-    <Label text="Thread Monitor — Week 4 Demo"
+    <Label text="Thread Monitor - Week 4 Demo"
            style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1769ff;"/>
 
-    <Label text="Live Thread State"
-           style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+    <Label text="Live Thread State" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
     <Label fx:id="stateLabel" text="--"/>
     <Label fx:id="queueLabel" text="--"/>
     <Label fx:id="counterLabel" text="--"/>
 
     <Label text="Race Condition Demo (UnsafeCounter)"
            style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
-    <Label text="Two threads each do 100 000 count++ — expected total = 200 000."
+    <Label text="Two threads each do 100,000 count++ - expected total = 200,000."
            style="-fx-font-size: 12px; -fx-text-fill: #68738a;"/>
     <HBox spacing="10">
-        <Button text="▶  Run UNSAFE"
+        <Button text="Run UNSAFE"
                 onAction="#runRaceDemo"
                 style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 18; -fx-background-radius: 6;"/>
-        <Button text="✓  Run SAFE (synchronized)"
+        <Button text="Run SAFE (synchronized)"
                 onAction="#runSafeDemo"
                 style="-fx-background-color: #18a957; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 18; -fx-background-radius: 6;"/>
     </HBox>

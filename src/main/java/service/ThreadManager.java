@@ -2,22 +2,12 @@ package service;
 
 import model.ActivityEntry;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
-/**
- * Week 4 Demo: Central executor management + graceful shutdown.
- * Every executor the app owns must have a shutdown path.
- */
 public class ThreadManager {
 
     private static ThreadManager instance;
-
-    // Fixed pool for CPU-bound tasks (StatsCalculator, etc.)
     private final ExecutorService calcPool = Executors.newFixedThreadPool(3);
-
-    // Consumer worker for the SessionQueue
     private final ExecutorService queueWorker = Executors.newSingleThreadExecutor(r -> {
         Thread t = new Thread(r, "queue-consumer");
         t.setDaemon(true);
@@ -26,9 +16,7 @@ public class ThreadManager {
 
     private final SessionQueue sessionQueue = new SessionQueue();
     private final SessionCounter counter = new SessionCounter();
-
     private volatile boolean shuttingDown = false;
-    private Thread queueThread;
 
     private ThreadManager() {}
 
@@ -41,43 +29,34 @@ public class ThreadManager {
     public SessionCounter getCounter() { return counter; }
     public ExecutorService getCalcPool() { return calcPool; }
 
-    /**
-     * Start the single background consumer that processes queued sessions.
-     */
-    public void startQueueConsumer(Runnable onConsumed) {
+    public void startQueueConsumer(Runnable onConsumedUiUpdate) {
         queueWorker.submit(() -> {
-            System.out.println("[" + Thread.currentThread().getName() + "] consumer started");
+            System.out.println("[queue-consumer] started");
             while (!shuttingDown) {
                 try {
-                    ActivityEntry entry = sessionQueue.take(); // blocks via wait()
+                    ActivityEntry entry = sessionQueue.take(500, TimeUnit.MILLISECONDS);
+                    if (entry == null) continue;
                     counter.addSession(entry.getDurationSeconds());
-                    System.out.println("[" + Thread.currentThread().getName()
-                            + "] consumed: " + entry.getName()
-                            + " (" + entry.getDurationFormatted() + ")");
-                    if (onConsumed != null) javafx.application.Platform.runLater(onConsumed);
+                    if (onConsumedUiUpdate != null) {
+                        javafx.application.Platform.runLater(onConsumedUiUpdate);
+                    }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
                 }
             }
-            System.out.println("[" + Thread.currentThread().getName() + "] consumer exiting");
+            System.out.println("[queue-consumer] exiting");
         });
     }
 
-    /**
-     * Submit a Callable task and get back a Future.
-     */
     public <T> Future<T> submitCalculation(Callable<T> task) {
         return calcPool.submit(task);
     }
 
-    /**
-     * Graceful shutdown pattern from the lab manual.
-     */
     public void shutdown() {
         if (shuttingDown) return;
         shuttingDown = true;
-        System.out.println("[ThreadManager] shutting down executors...");
+        System.out.println("[ThreadManager] shutting down...");
 
         queueWorker.shutdownNow();
         calcPool.shutdown();
@@ -85,9 +64,7 @@ public class ThreadManager {
         try {
             if (!calcPool.awaitTermination(3, TimeUnit.SECONDS)) {
                 calcPool.shutdownNow();
-                if (!calcPool.awaitTermination(2, TimeUnit.SECONDS)) {
-                    System.err.println("[ThreadManager] calcPool did not terminate");
-                }
+                calcPool.awaitTermination(2, TimeUnit.SECONDS);
             }
         } catch (InterruptedException e) {
             calcPool.shutdownNow();

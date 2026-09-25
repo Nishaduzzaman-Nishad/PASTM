@@ -24,7 +24,6 @@ public class ActivityEntry {
         return String.format("%dm %02ds", m, s);
     }
 
-    // NEW: used by the queue consumer
     public ActivityEntry copy() {
         return new ActivityEntry(name, category, durationSeconds);
     }

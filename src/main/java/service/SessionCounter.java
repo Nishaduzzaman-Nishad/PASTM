@@ -1,18 +1,11 @@
 package service;
 
-/**
- * Week 4 Demo: Shared Mutable State protected with synchronized.
- *
- * Without synchronized, two threads calling addSession() could lose updates
- * (this is the "UnsafeCounter" race condition from the lab manual).
- */
 public class SessionCounter {
     private int totalSeconds;
     private int sessionCount;
     private int totalMinutes;
 
     public synchronized void addSession(int seconds) {
-        // Compound operation: read + compute + write — must be atomic
         this.totalSeconds += seconds;
         this.sessionCount++;
         this.totalMinutes += seconds / 60;

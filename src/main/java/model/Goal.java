@@ -22,13 +22,17 @@ public class Goal {
 
     public void resetProgress() {
         this.currentSeconds = 0;
-        this.completed = false;
+        recalculate();
     }
 
     private void recalculate() {
         if ("Screen Time".equals(category)) {
-            completed = currentSeconds > 0 && currentSeconds <= targetSeconds;
+            // Screen goal = budget. Only complete if some usage AND under 100%
+            // AND over 50% (encourages actual tracking).
+            completed = currentSeconds >= targetSeconds * 0.5
+                    && currentSeconds <= targetSeconds;
         } else {
+            // Study / Sleep: complete when reached target
             completed = currentSeconds >= targetSeconds;
         }
     }

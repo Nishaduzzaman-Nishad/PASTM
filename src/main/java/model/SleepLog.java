@@ -29,6 +29,7 @@ public class SleepLog {
     public long getHoursSlept() { return getDiffSeconds() / 3600; }
     public long getMinutesSlept() { return (getDiffSeconds() % 3600) / 60; }
     public long getTotalMinutes() { return getDiffSeconds() / 60; }
+    public long getTotalSeconds() { return getDiffSeconds(); }
 
     public String getFormattedDuration() {
         return getHoursSlept() + " hours " + getMinutesSlept() + " minutes";

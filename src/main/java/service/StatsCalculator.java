@@ -1,14 +1,9 @@
 package service;
 
 import model.ActivityEntry;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Week 4 Demo: Callable + Future.
- * Runs a heavy calculation on a background thread pool and returns a result.
- */
 public class StatsCalculator implements Callable<StatsCalculator.Stats> {
 
     public static class Stats {
@@ -24,10 +19,8 @@ public class StatsCalculator implements Callable<StatsCalculator.Stats> {
             this.totalSessions = totalSessions;
         }
 
-        @Override
-        public String toString() {
-            return String.format(
-                    "Screen: %s | Study: %s | Sleep: %s | Sessions: %d",
+        @Override public String toString() {
+            return String.format("Screen: %s | Study: %s | Sleep: %s | Sessions: %d",
                     fmt(screenSeconds), fmt(studySeconds), fmt(sleepSeconds), totalSessions);
         }
 
@@ -37,18 +30,9 @@ public class StatsCalculator implements Callable<StatsCalculator.Stats> {
     }
 
     private final List<ActivityEntry> snapshot;
+    public StatsCalculator(List<ActivityEntry> snapshot) { this.snapshot = snapshot; }
 
-    public StatsCalculator(List<ActivityEntry> snapshot) {
-        this.snapshot = snapshot;
-    }
-
-    @Override
-    public Stats call() {
-        // Simulate work (optional)
-        try { Thread.sleep(150); } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
+    @Override public Stats call() {
         int screen = 0, study = 0, sleep = 0;
         for (ActivityEntry e : snapshot) {
             switch (e.getCategory()) {

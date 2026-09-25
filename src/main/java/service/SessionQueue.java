@@ -1,43 +1,25 @@
 package service;
 
 import model.ActivityEntry;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Week 4 Demo: Producer-Consumer with wait() and notifyAll().
- * One-slot buffer (mirrors the "Box" example from the lab manual).
+ * Week 4: Producer-Consumer.
+ * Non-blocking offer() so the UI thread never freezes.
+ * Larger capacity (100) to avoid drops during demo.
  */
 public class SessionQueue {
-    private ActivityEntry item;
-    private boolean hasItem = false;
+    private final LinkedBlockingQueue<ActivityEntry> queue = new LinkedBlockingQueue<>(100);
 
-    /**
-     * Producer: UI thread calls this when a session ends.
-     * Uses while() (not if) to re-check the guarded condition.
-     */
-    public synchronized void put(ActivityEntry entry) throws InterruptedException {
-        while (hasItem) {
-            wait(); // release lock and pause
-        }
-        item = entry;
-        hasItem = true;
-        notifyAll(); // wake the consumer
+    public boolean put(ActivityEntry entry) {
+        return queue.offer(entry);
     }
 
-    /**
-     * Consumer: background worker calls this to process sessions.
-     */
-    public synchronized ActivityEntry take() throws InterruptedException {
-        while (!hasItem) {
-            wait(); // wait until producer fills the slot
-        }
-        ActivityEntry result = item;
-        item = null;
-        hasItem = false;
-        notifyAll(); // wake the producer
-        return result;
+    public ActivityEntry take(long timeout, TimeUnit unit) throws InterruptedException {
+        return queue.poll(timeout, unit);
     }
 
-    public synchronized int pending() {
-        return hasItem ? 1 : 0;
-    }
+    public int pending() { return queue.size(); }
+    public void clear() { queue.clear(); }
 }
