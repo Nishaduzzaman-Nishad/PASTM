@@ -22,13 +22,14 @@ public class ThreadMonitorController {
 
     private ScheduledExecutorService refresher;
 
-    private static class UnsafeCounter {
-        int count;
-        void increment() { count++; }
-    }
+    private static class UnsafeCounter { int count; void increment() { count++; } }
 
     @FXML
     public void initialize() {
+        if (raceLog != null) raceLog.clear();
+        if (raceResult != null) raceResult.setText("--");
+        if (safeResult != null) safeResult.setText("--");
+
         refresher = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread t = new Thread(r, "monitor-refresher");
             t.setDaemon(true);
@@ -37,12 +38,8 @@ public class ThreadMonitorController {
         refresher.scheduleAtFixedRate(() -> Platform.runLater(this::refresh), 0, 500, TimeUnit.MILLISECONDS);
     }
 
-    /** Called by the parent window when closing. */
     public void stop() {
-        if (refresher != null && !refresher.isShutdown()) {
-            refresher.shutdownNow();
-            System.out.println("[ThreadMonitor] refresher stopped");
-        }
+        if (refresher != null && !refresher.isShutdown()) refresher.shutdownNow();
     }
 
     private void refresh() {
@@ -53,11 +50,10 @@ public class ThreadMonitorController {
         queueLabel.setText("Queue pending: " + tm.getQueue().pending());
 
         SessionCounter sc = tm.getCounter();
-        counterLabel.setText("Synchronized counter → " + sc.getSummary());
+        counterLabel.setText("Synchronized counter: " + sc.getSummary());
     }
 
-    @FXML
-    private void runRaceDemo() {
+    @FXML private void runRaceDemo() {
         raceLog.clear();
         UnsafeCounter unsafe = new UnsafeCounter();
         Runnable task = () -> { for (int i = 0; i < 100_000; i++) unsafe.increment(); };
@@ -69,8 +65,7 @@ public class ThreadMonitorController {
         raceResult.setText("Unsafe result: " + unsafe.count + " (RACE CONDITION!)");
     }
 
-    @FXML
-    private void runSafeDemo() {
+    @FXML private void runSafeDemo() {
         SessionCounter safe = new SessionCounter();
         Runnable task = () -> { for (int i = 0; i < 100_000; i++) safe.addSession(1); };
         Thread t1 = new Thread(task, "safe-1");

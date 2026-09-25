@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -55,6 +56,7 @@
     <left>
         <VBox styleClass="sidebar" spacing="7">
             <Button text="Dashboard" styleClass="sidebar-button sidebar-active" onAction="#goHome"/>
+            <Button fx:id="manageAppsBtn" text="Manage Apps" styleClass="sidebar-button" onAction="#openManageAppsWindow"/>
             <Button fx:id="goalsBtn" text="Goals" styleClass="sidebar-button" onAction="#openGoalsWindow"/>
             <Button fx:id="focusModeButton" text="Focus Mode" styleClass="sidebar-button" onAction="#toggleFocusMode"/>
             <Button fx:id="historyBtn" text="History" styleClass="sidebar-button" onAction="#openHistoryWindow"/>
@@ -88,13 +90,7 @@
                                             <Label text="Select App" styleClass="field-title"/>
                                             <ComboBox fx:id="appComboBox" promptText="Select App..." styleClass="app-combo" maxWidth="1.7976931348623157E308"/>
                                             <Label text="Or click an app to open:" styleClass="secondary-label"/>
-                                            <HBox spacing="8">
-                                                <Button fx:id="facebookIcon" text="F" styleClass="app-icon-button"/>
-                                                <Button fx:id="youtubeIcon" text="Y" styleClass="app-icon-button"/>
-                                                <Button fx:id="instagramIcon" text="I" styleClass="app-icon-button"/>
-                                                <Button fx:id="whatsappIcon" text="W" styleClass="app-icon-button"/>
-                                                <Button fx:id="chromeIcon" text="C" styleClass="app-icon-button"/>
-                                            </HBox>
+                                            <FlowPane fx:id="appIconBar" hgap="8" vgap="8" prefWrapLength="280"/>
                                         </VBox>
                                         <Separator orientation="VERTICAL"/>
                                         <VBox spacing="3" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
@@ -108,7 +104,8 @@
                                     </HBox>
                                     <HBox styleClass="session-tip" alignment="CENTER_LEFT" spacing="10">
                                         <Label text="Tip:" styleClass="tip-icon"/>
-                                        <Label fx:id="tipLabel" text="Tip: Take regular breaks." styleClass="tip-text"/>
+                                        <Label fx:id="tipLabel" text="Fetching a live wellness tip..." styleClass="tip-text" wrapText="true" HBox.hgrow="ALWAYS"/>
+                                        <Button fx:id="fetchTipBtn" text="Fetch Live Tip" onAction="#fetchLiveTip" styleClass="fetch-tip-button"/>
                                     </HBox>
                                     <VBox styleClass="activity-card" spacing="10">
                                         <HBox alignment="CENTER_LEFT" spacing="10">
@@ -149,7 +146,7 @@
                     </StackPane>
                 </Tab>
 
-                <Tab text="Study Sessions">
+                <Tab text="Study Time">
                     <ScrollPane fitToWidth="true" styleClass="content-scroll">
                         <VBox styleClass="tab-content" spacing="18">
                             <Label text="Study Session" styleClass="page-title"/>

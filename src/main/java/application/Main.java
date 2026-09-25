@@ -1,5 +1,6 @@
 package application;
 
+import database.AppDAO;
 import database.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +16,15 @@ public class Main extends Application {
         try {
             Database.initializeDatabase();
 
+            new AppDAO().seedDefaultsIfFirstRun();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/MainWindow.fxml"));
             Parent root = loader.load();
             MainWindowController controller = loader.getController();
 
             Scene scene = new Scene(root, 1400, 850);
             scene.getStylesheets().add(
-                    getClass().getResource("/application/style.css").toExternalForm()
-            );
+                    getClass().getResource("/application/style.css").toExternalForm());
 
             primaryStage.setTitle("Personalized Activity and Screen Time Manager");
             primaryStage.setScene(scene);
@@ -45,9 +47,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            ThreadManager.getInstance().shutdown();
-        }, "shutdown-hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                ThreadManager.getInstance().shutdown(), "shutdown-hook"));
         launch(args);
     }
 }

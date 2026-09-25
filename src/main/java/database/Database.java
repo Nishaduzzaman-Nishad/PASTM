@@ -30,15 +30,23 @@ public class Database {
                 "completed INTEGER NOT NULL DEFAULT 0, " +
                 "date TEXT NOT NULL)";
 
-        String appCategories = "CREATE TABLE IF NOT EXISTS app_categories (" +
-                "app_name TEXT PRIMARY KEY, " +
-                "is_productive INTEGER NOT NULL)";
+        String apps = "CREATE TABLE IF NOT EXISTS apps (" +
+                "name TEXT PRIMARY KEY, " +
+                "icon TEXT NOT NULL, " +
+                "productive INTEGER NOT NULL, " +
+                "installed_date TEXT NOT NULL, " +
+                "last_used_date TEXT)";
+
+        String settings = "CREATE TABLE IF NOT EXISTS settings (" +
+                "key TEXT PRIMARY KEY, " +
+                "value TEXT NOT NULL)";
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
             stmt.execute(activities);
             stmt.execute(goals);
-            stmt.execute(appCategories);
+            stmt.execute(apps);
+            stmt.execute(settings);
             System.out.println("[Database] initialized: lifesync.db ready.");
         } catch (SQLException e) {
             System.err.println("[Database] initialization failed: " + e.getMessage());

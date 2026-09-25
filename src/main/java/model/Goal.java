@@ -1,16 +1,24 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Goal {
     private String name;
     private int targetSeconds;
     private int currentSeconds;
     private String category;
     private boolean completed;
+    private String date;
 
     public Goal(String name, int targetMinutes, String category) {
+        this(name, targetMinutes, category, LocalDate.now().toString());
+    }
+
+    public Goal(String name, int targetMinutes, String category, String date) {
         this.name = name;
         this.targetSeconds = targetMinutes * 60;
         this.category = category;
+        this.date = date;
         this.currentSeconds = 0;
         recalculate();
     }
@@ -27,12 +35,9 @@ public class Goal {
 
     private void recalculate() {
         if ("Screen Time".equals(category)) {
-            // Screen goal = budget. Only complete if some usage AND under 100%
-            // AND over 50% (encourages actual tracking).
-            completed = currentSeconds >= targetSeconds * 0.5
+            completed = currentSeconds >= targetSeconds * 0.9
                     && currentSeconds <= targetSeconds;
         } else {
-            // Study / Sleep: complete when reached target
             completed = currentSeconds >= targetSeconds;
         }
     }
@@ -45,6 +50,8 @@ public class Goal {
     public int getCurrentMinutes() { return currentSeconds / 60; }
     public int getCurrentSeconds() { return currentSeconds; }
     public String getCategory() { return category; }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
     public boolean isCompleted() { return completed; }
 
     public double getProgressRatio() {

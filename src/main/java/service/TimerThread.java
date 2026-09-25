@@ -20,17 +20,28 @@ public class TimerThread extends Thread {
 
     @Override
     public void run() {
+        long startNanos = System.nanoTime();
+        int lastBroadcast = -1;
+
         try {
-            while (true) {
-                Thread.sleep(1000);
+            while (running) {
+                Thread.sleep(100);
                 if (!running) break;
-                seconds++;
-                final int s = seconds;
-                Platform.runLater(() -> listener.onTick(s));
+
+                long elapsedSeconds = (System.nanoTime() - startNanos) / 1_000_000_000L;
+                int newSeconds = (int) elapsedSeconds;
+
+                if (newSeconds != lastBroadcast) {
+                    lastBroadcast = newSeconds;
+                    seconds = newSeconds;
+                    final int s = newSeconds;
+                    Platform.runLater(() -> listener.onTick(s));
+                }
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+
         final int finalSeconds = seconds;
         Platform.runLater(() -> listener.onFinish(finalSeconds));
     }

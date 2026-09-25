@@ -23,8 +23,4 @@ public class ActivityEntry {
         if (m >= 60) return String.format("%dh %02dm", m / 60, m % 60);
         return String.format("%dm %02ds", m, s);
     }
-
-    public ActivityEntry copy() {
-        return new ActivityEntry(name, category, durationSeconds);
-    }
 }

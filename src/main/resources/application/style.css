@@ -177,24 +177,62 @@
 }
 
 /* =========================================================
-   APP ICON BUTTONS
+   DYNAMIC APP ICONS
    ========================================================= */
 .app-icon-button {
     -fx-background-color: white;
     -fx-border-color: #d4deeb;
-    -fx-border-radius: 9;
-    -fx-background-radius: 9;
-    -fx-min-width: 55;
-    -fx-min-height: 50;
-    -fx-font-size: 18px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-min-width: 60;
+    -fx-min-height: 56;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #26314a;
+    -fx-cursor: hand;
+    -fx-padding: 0;
 }
 .app-icon-button:hover {
     -fx-background-color: #e3f2fd;
     -fx-border-color: #1769ff;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+.add-app-button {
+    -fx-background-color: #f0f5ff;
+    -fx-border-color: #d4deeb;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-min-width: 60;
+    -fx-min-height: 56;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1769ff;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+.add-app-button:hover { -fx-background-color: #1769ff; -fx-text-fill: white; }
+.install-app-button {
+    -fx-background-color: #1769ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 14 20;
+    -fx-background-radius: 10;
     -fx-cursor: hand;
 }
+.install-app-button:hover { -fx-background-color: #0e58dc; }
+.emoji-preset-button {
+    -fx-background-color: white;
+    -fx-border-color: #d4deeb;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+.emoji-preset-button:hover { -fx-background-color: #e3f2fd; -fx-border-color: #1769ff; }
 
 /* =========================================================
    TIMER + PROGRESS BARS
@@ -217,6 +255,18 @@
 }
 .tip-icon { -fx-font-size: 13px; -fx-text-fill: #1769ff; -fx-font-weight: bold; }
 .tip-text { -fx-font-size: 13px; -fx-text-fill: #1769ff; }
+
+.fetch-tip-button {
+    -fx-background-color: #1769ff;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+.fetch-tip-button:hover { -fx-background-color: #0e58dc; }
+.fetch-tip-button:disabled { -fx-background-color: #94a3b8; -fx-opacity: 0.7; }
 
 /* =========================================================
    TABLE
@@ -299,7 +349,7 @@
 .scroll-bar .thumb:hover { -fx-background-color: #aeb9ca; }
 
 /* =========================================================
-   PIE CHART SLICE COLORS (fixed order)
+   PIE CHART SLICE COLORS
    ========================================================= */
 .default-color0.chart-pie { -fx-pie-color: #1769ff; }
 .default-color1.chart-pie { -fx-pie-color: #18a957; }
@@ -365,6 +415,10 @@
 
 .dark-mode .app-icon-button { -fx-background-color: #34495e; -fx-border-color: #4a5d73; -fx-text-fill: #e2e8f0; }
 .dark-mode .app-icon-button:hover { -fx-background-color: #4a5d73; -fx-border-color: #7aa7ff; }
+.dark-mode .add-app-button { -fx-background-color: #2a3b52; -fx-border-color: #4a5d73; -fx-text-fill: #7aa7ff; }
+.dark-mode .add-app-button:hover { -fx-background-color: #7aa7ff; -fx-text-fill: #1e2a38; }
+.dark-mode .fetch-tip-button { -fx-background-color: #7aa7ff; -fx-text-fill: #1e2a38; }
+.dark-mode .fetch-tip-button:hover { -fx-background-color: #5b8ce0; }
 
 .dark-mode .activity-table { -fx-background-color: #263445; -fx-border-color: #34495e; }
 .dark-mode .activity-table .column-header-background { -fx-background-color: #34495e; }
@@ -387,8 +441,3 @@
 .dark-mode .chart-pie-label { -fx-fill: #e2e8f0; }
 .dark-mode .chart-pie-label-line { -fx-stroke: #a0aec0; }
 .dark-mode .chart-title { -fx-text-fill: #e2e8f0; }
-
-/* Score ring border color states in dark mode */
-.dark-mode .score-circle.score-low { -fx-border-color: #ef4444; }
-.dark-mode .score-circle.score-mid { -fx-border-color: #f59e0b; }
-.dark-mode .score-circle.score-high { -fx-border-color: #18a957; }

@@ -36,13 +36,20 @@ public class ThreadManager {
                 try {
                     ActivityEntry entry = sessionQueue.take(500, TimeUnit.MILLISECONDS);
                     if (entry == null) continue;
-                    counter.addSession(entry.getDurationSeconds());
-                    if (onConsumedUiUpdate != null) {
-                        javafx.application.Platform.runLater(onConsumedUiUpdate);
+
+                    try {
+                        counter.addSession(entry.getDurationSeconds());
+                        if (onConsumedUiUpdate != null) {
+                            javafx.application.Platform.runLater(onConsumedUiUpdate);
+                        }
+                    } catch (Exception innerEx) {
+                        System.err.println("[queue-consumer] process failed: " + innerEx.getMessage());
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
+                } catch (Exception outerEx) {
+                    System.err.println("[queue-consumer] unexpected: " + outerEx.getMessage());
                 }
             }
             System.out.println("[queue-consumer] exiting");

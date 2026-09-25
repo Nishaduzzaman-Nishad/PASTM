@@ -40,7 +40,6 @@ public class ActivityDAO {
         return list;
     }
 
-    /** Merge into existing row for today OR insert new one. */
     public void mergeOrInsert(ActivityEntry entry) throws SQLException {
         String today = LocalDate.now().toString();
         String find = "SELECT id, duration_seconds FROM activities " +
@@ -76,7 +75,6 @@ public class ActivityDAO {
         }
     }
 
-    /** Delete all rows in a category for today (used for sleep refresh). */
     public void deleteByCategory(String category) throws SQLException {
         String sql = "DELETE FROM activities WHERE category = ? AND date = ?";
         try (Connection conn = Database.connect();

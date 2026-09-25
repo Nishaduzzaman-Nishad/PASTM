@@ -21,7 +21,10 @@ public class SleepLog {
     private long getDiffSeconds() {
         long bedSeconds = bedTime.toSecondOfDay();
         long wakeSeconds = wakeTime.toSecondOfDay();
-        return wakeSeconds >= bedSeconds
+
+        if (bedSeconds == wakeSeconds) return 0;
+
+        return wakeSeconds > bedSeconds
                 ? wakeSeconds - bedSeconds
                 : (24 * 3600) - bedSeconds + wakeSeconds;
     }
