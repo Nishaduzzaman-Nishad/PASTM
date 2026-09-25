@@ -150,10 +150,10 @@
                     </StackPane>
                 </Tab>
 
-                <Tab text="▤   Focus Sessions">
+                <Tab text="▤   Study Sessions">
                     <ScrollPane fitToWidth="true" styleClass="content-scroll">
                         <VBox styleClass="tab-content" spacing="18">
-                            <Label text="Focus Session" styleClass="page-title"/>
+                            <Label text="Study Session" styleClass="page-title"/>
                             <Label text="Start a session and stop it manually." styleClass="page-description"/>
                             <HBox spacing="15">
                                 <VBox styleClass="simple-card" spacing="12" HBox.hgrow="ALWAYS">

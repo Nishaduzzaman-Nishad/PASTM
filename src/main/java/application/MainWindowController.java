@@ -26,14 +26,11 @@ import service.TimerThread;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 public class MainWindowController {
 
-    // SCREEN TIME
     @FXML private TabPane mainTabPane;
     @FXML private ComboBox<String> appComboBox;
     @FXML private ComboBox<String> filterComboBox;
@@ -62,21 +59,18 @@ public class MainWindowController {
     @FXML private VBox previewHeader;
     @FXML private Label previewContentTitle;
 
-    // STUDY
     @FXML private TextField studySubjectField;
     @FXML private Label studyTimerLabel;
     @FXML private Button studyToggleButton;
     @FXML private Label studyTotalLabel;
     @FXML private Label studySessionsLabel;
 
-    // SLEEP
     @FXML private ComboBox<String> bedHourCombo;
     @FXML private ComboBox<String> bedMinuteCombo;
     @FXML private ComboBox<String> wakeHourCombo;
     @FXML private ComboBox<String> wakeMinuteCombo;
     @FXML private Label sleepResultLabel;
 
-    // SIDEBAR + HEADER
     @FXML private Button focusModeButton;
     @FXML private Button darkModeBtn;
     @FXML private Button goalsBtn;
@@ -96,7 +90,6 @@ public class MainWindowController {
     @FXML private Label scoreStatus;
     @FXML private Label scoreMessage;
 
-    // GOAL PANEL
     @FXML private ProgressBar goalStudyBar;
     @FXML private Label goalStudyValue;
     @FXML private ProgressBar goalScreenBar;
@@ -104,17 +97,13 @@ public class MainWindowController {
     @FXML private ProgressBar goalSleepBar;
     @FXML private Label goalSleepValue;
 
-    // BOTTOM BAR
     @FXML private Label streakLabel;
     @FXML private Label achieveLabel;
     @FXML private Label sessionsLabel;
     @FXML private Label balanceLabel;
     @FXML private Label balanceSubLabel;
 
-    // ===================================================
-    //  STATE
-    // ===================================================
-    private TimerThread screenTimer;   // Week 4: extends Thread
+    private TimerThread screenTimer;
     private int screenSeconds = 0;
     private String currentApp = "";
     private boolean focusMode = false;
@@ -123,7 +112,7 @@ public class MainWindowController {
     private TimerThread studyTimer;
     private int studySeconds = 0;
     private boolean studyRunning = false;
-    private int totalStudyMinutes = 0;
+    private int totalStudySeconds = 0;
     private int totalSessionsDone = 0;
 
     private boolean darkMode = false;
@@ -134,25 +123,28 @@ public class MainWindowController {
     private final ObservableList<Goal> goals = FXCollections.observableArrayList();
     private final ObservableList<String> achievements = FXCollections.observableArrayList();
 
+    // Productive vs Non-Productive app lists (Week 4 state)
+    private final Set<String> productiveApps = new LinkedHashSet<>();
+    private final Set<String> nonProductiveApps = new LinkedHashSet<>();
+
     private final List<String> tips = new ArrayList<>();
     private int currentTipIndex = 0;
     private final List<String> notifications = new ArrayList<>();
 
     private final ThreadManager threadManager = ThreadManager.getInstance();
 
-    // ===================================================
-    //  INIT
-    // ===================================================
     @FXML
     public void initialize() {
+        // Default categorization — user can change in Settings
+        productiveApps.add("Chrome");
+        nonProductiveApps.addAll(Arrays.asList("YouTube", "Facebook", "Instagram", "WhatsApp"));
+
         setupScreenTab();
         setupStudyTab();
         setupSleepTab();
-        setupPieChart();
         setupTips();
         setupNotifications();
 
-        // Week 4: start the consumer thread that reads from SessionQueue
         threadManager.startQueueConsumer(() -> {
             updateScore();
             updateGoalPanel();
@@ -162,6 +154,7 @@ public class MainWindowController {
 
         updateScore();
         updateGoalPanel();
+        updatePieChart();
         updateBottomBar();
         refreshAchievements();
     }
@@ -209,8 +202,6 @@ public class MainWindowController {
         wakeHourCombo.setValue("07"); wakeMinuteCombo.setValue("00");
     }
 
-    private void setupPieChart() { updatePieChart(); }
-
     private void setupTips() {
         tips.add("Try the 20-20-20 rule: Every 20 minutes, look at something 20 feet away.");
         tips.add("Taking a 5-minute walk every hour improves focus by up to 30%.");
@@ -245,25 +236,19 @@ public class MainWindowController {
     }
 
     // ===================================================
-    //  SESSION HANDLING (uses ThreadManager + queue)
-    // ===================================================
-    private void addOrMergeEntry(String name, String category, int seconds) {
-        if (seconds <= 0) return;
-        for (ActivityEntry e : activityLog) {
-            if (e.getName().equals(name) && e.getCategory().equals(category)) {
-                e.addDuration(seconds);
-                activityTable.refresh();
-                return;
-            }
-        }
-        activityLog.add(new ActivityEntry(name, category, seconds));
-        activityTable.refresh();
-    }
-
-    // ===================================================
-    //  PREVIEW / TIMER
+    //  APP PREVIEW — BLOCKED IN FOCUS MODE
     // ===================================================
     private void openAppPreview(String appName) {
+        // FIX: block app usage when focus mode is ON
+        if (focusMode) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setTitle("Focus Mode Active");
+            a.setHeaderText("App usage is blocked");
+            a.setContentText("Focus Mode is ON. Turn it OFF from the sidebar to use apps.");
+            a.showAndWait();
+            return;
+        }
+
         currentApp = appName;
         screenSeconds = 0;
         inPreviewMode = true;
@@ -275,16 +260,13 @@ public class MainWindowController {
         previewOverlay.setVisible(true);
         previewOverlay.setManaged(true);
 
-        // Week 4: start a Thread (extends Thread)
         screenTimer = new TimerThread("screen-timer", new TimerThread.TickListener() {
             @Override public void onTick(int s) {
                 screenSeconds = s;
                 previewTimerLabel.setText(formatTime(s));
                 screenProgress.setProgress(Math.min((double) s / (60 * 60), 1.0));
             }
-            @Override public void onFinish(int s) {
-                System.out.println("[" + Thread.currentThread().getName() + "] timer finished");
-            }
+            @Override public void onFinish(int s) { }
         });
         screenTimer.start();
     }
@@ -307,23 +289,14 @@ public class MainWindowController {
     }
 
     private void endPreview() {
-        // Week 4: cooperative stop via interrupt()
-        if (screenTimer != null) {
-            screenTimer.stopTimer();
-            screenTimer = null;
-        }
+        if (screenTimer != null) { screenTimer.stopTimer(); screenTimer = null; }
 
-        if (screenSeconds >= 5) {
-            ActivityEntry entry = new ActivityEntry(currentApp, "Screen Time", screenSeconds);
+        if (screenSeconds >= 3) {
             addOrMergeEntry(currentApp, "Screen Time", screenSeconds);
-            recordProgress("Screen Time", screenSeconds / 60);
+            recordProgress("Screen Time", screenSeconds);
 
-            // Week 4: enqueue to producer-consumer queue for the background consumer thread
-            try {
-                threadManager.getQueue().put(entry.copy());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            try { threadManager.getQueue().put(new ActivityEntry(currentApp, "Screen Time", screenSeconds)); }
+            catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setTitle("Session Ended");
@@ -346,25 +319,24 @@ public class MainWindowController {
     }
 
     // ===================================================
-    //  STUDY
+    //  STUDY SESSION
     // ===================================================
     @FXML private void toggleStudySession() {
         if (studyRunning) {
             studyRunning = false;
             if (studyTimer != null) { studyTimer.stopTimer(); studyTimer = null; }
-            studyToggleButton.setText("▶   Start Focus Session");
+            studyToggleButton.setText("▶   Start Study Session");
 
-            if (studySeconds >= 5) {
+            if (studySeconds >= 3) {
                 String subject = studySubjectField.getText().isEmpty() ? "General Study" : studySubjectField.getText();
                 addOrMergeEntry("📖 " + subject, "Study Time", studySeconds);
-                totalStudyMinutes += studySeconds / 60;
+                totalStudySeconds += studySeconds;
                 totalSessionsDone++;
 
-                ActivityEntry entry = new ActivityEntry("📖 " + subject, "Study Time", studySeconds);
-                try { threadManager.getQueue().put(entry); }
+                try { threadManager.getQueue().put(new ActivityEntry("📖 " + subject, "Study Time", studySeconds)); }
                 catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
-                recordProgress("Study Time", studySeconds / 60);
+                recordProgress("Study Time", studySeconds);
                 updateStudyStats();
             }
             studySeconds = 0;
@@ -385,7 +357,7 @@ public class MainWindowController {
     }
 
     private void updateStudyStats() {
-        studyTotalLabel.setText(String.format("%dh %02dm", totalStudyMinutes / 60, totalStudyMinutes % 60));
+        studyTotalLabel.setText(String.format("%dh %02dm", totalStudySeconds / 3600, (totalStudySeconds % 3600) / 60));
         studySessionsLabel.setText(String.valueOf(totalSessionsDone));
     }
 
@@ -401,30 +373,55 @@ public class MainWindowController {
             String suffix = h < 5 ? "  ⚠ Too little!" : (h > 9 ? "  ☕ Oversleeping?" : "  ✓ Healthy!");
             sleepResultLabel.setText(log.getFormattedDuration() + suffix);
 
-            int sleepMinutes = (int) log.getTotalMinutes();
-            // Replace any previous sleep entry
+            int sleepSeconds = (int)(log.getTotalMinutes() * 60);
+
+            // Remove previous sleep entry
             activityLog.removeIf(e -> "Sleep Time".equals(e.getCategory()));
-            if (sleepMinutes > 0) {
-                activityLog.add(new ActivityEntry("💤 Sleep", "Sleep Time", sleepMinutes * 60));
-                try {
-                    threadManager.getQueue().put(new ActivityEntry("💤 Sleep", "Sleep Time", sleepMinutes * 60));
-                } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+            // Reset sleep goal progress
+            for (Goal g : goals) if ("Sleep Time".equals(g.getCategory())) g.resetProgress();
+
+            if (sleepSeconds > 0) {
+                activityLog.add(new ActivityEntry("💤 Sleep", "Sleep Time", sleepSeconds));
+                try { threadManager.getQueue().put(new ActivityEntry("💤 Sleep", "Sleep Time", sleepSeconds)); }
+                catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+                recordProgress("Sleep Time", sleepSeconds);
             }
             activityTable.refresh();
-            refreshAchievements();
             updateScore();
             updateGoalPanel();
             updatePieChart();
             updateBottomBar();
+            refreshAchievements();
         } catch (Exception ex) { sleepResultLabel.setText("Invalid input"); }
     }
 
     // ===================================================
-    //  GOAL + SCORE
+    //  ENTRY MERGE
     // ===================================================
-    private void recordProgress(String category, int minutes) {
-        if (minutes <= 0) return;
-        for (Goal g : goals) if (g.getCategory().equals(category)) g.addProgress(minutes);
+    private void addOrMergeEntry(String name, String category, int seconds) {
+        if (seconds <= 0) return;
+        for (ActivityEntry e : activityLog) {
+            if (e.getName().equals(name) && e.getCategory().equals(category)) {
+                e.addDuration(seconds);
+                activityTable.refresh();
+                return;
+            }
+        }
+        activityLog.add(new ActivityEntry(name, category, seconds));
+        activityTable.refresh();
+    }
+
+    // ===================================================
+    //  SCORE, GOALS, CHARTS (FIXED)
+    // ===================================================
+    private void recordProgress(String category, int seconds) {
+        if (seconds > 0) {
+            for (Goal g : goals) {
+                if (g.getCategory().equals(category)) g.addProgress(seconds);
+            }
+        }
+        // Always refresh UI — even for tiny sessions
         refreshAchievements();
         updateScore();
         updateGoalPanel();
@@ -439,46 +436,67 @@ public class MainWindowController {
     }
 
     private void updateScore() {
-        int studyGoal = 0;
-        for (Goal g : goals) if ("Study Time".equals(g.getCategory())) studyGoal += g.getTargetMinutes();
-        if (studyGoal <= 0) {
+        // Score = (studySec + productiveScreenSec - nonProductiveScreenSec) / studyGoalSec * 100
+        int studyGoalSec = 0;
+        for (Goal g : goals) if ("Study Time".equals(g.getCategory())) studyGoalSec += g.getTargetSeconds();
+
+        if (studyGoalSec <= 0) {
             scoreNumber.setText("0");
             scoreStatus.setText("No study goal");
             scoreMessage.setText("Set a Study Goal");
             return;
         }
-        int studyMinutes = 0, screenMinutes = 0;
+
+        int studySec = 0, productiveSec = 0, nonProdSec = 0;
         for (ActivityEntry e : activityLog) {
-            if ("Study Time".equals(e.getCategory())) studyMinutes += e.getDurationSeconds() / 60;
-            if ("Screen Time".equals(e.getCategory())) screenMinutes += e.getDurationSeconds() / 60;
+            if ("Study Time".equals(e.getCategory())) {
+                studySec += e.getDurationSeconds();
+            } else if ("Screen Time".equals(e.getCategory())) {
+                String appName = e.getName().replace("📖 ", "").trim();
+                if (productiveApps.contains(appName)) productiveSec += e.getDurationSeconds();
+                else nonProdSec += e.getDurationSeconds();
+            }
         }
-        double raw = ((double)(studyMinutes - screenMinutes) / studyGoal) * 100;
+
+        double net = studySec + productiveSec - nonProdSec;
+        double raw = (net / studyGoalSec) * 100;
         int score = (int) Math.max(0, Math.min(100, Math.round(raw)));
+
         scoreNumber.setText(String.valueOf(score));
         if (score >= 80) scoreStatus.setText("Excellent Day! ⭐");
         else if (score >= 50) scoreStatus.setText("Good Day! ✓");
         else if (score >= 20) scoreStatus.setText("Keep Going 💪");
         else scoreStatus.setText("Just Starting");
-        scoreMessage.setText(studyMinutes + "m study − " + screenMinutes + "m screen");
+
+        scoreMessage.setText(formatShort(studySec) + " study − " + formatShort(nonProdSec) + " non-prod screen");
+    }
+
+    private String formatShort(int s) {
+        int m = s / 60;
+        if (m >= 60) return (m / 60) + "h " + (m % 60) + "m";
+        return m + "m";
     }
 
     private void updateGoalPanel() {
         int studyT = 0, studyC = 0, screenT = 0, screenC = 0, sleepT = 0, sleepC = 0;
         for (Goal g : goals) {
             switch (g.getCategory()) {
-                case "Study Time":  studyT += g.getTargetMinutes();  studyC += g.getCurrentMinutes();  break;
-                case "Screen Time": screenT += g.getTargetMinutes(); screenC += g.getCurrentMinutes(); break;
-                case "Sleep Time":  sleepT += g.getTargetMinutes();  sleepC += g.getCurrentMinutes();  break;
+                case "Study Time":  studyT += g.getTargetSeconds();  studyC += g.getCurrentSeconds();  break;
+                case "Screen Time": screenT += g.getTargetSeconds(); screenC += g.getCurrentSeconds(); break;
+                case "Sleep Time":  sleepT += g.getTargetSeconds();  sleepC += g.getCurrentSeconds();  break;
             }
         }
-        if (studyT > 0) { goalStudyBar.setProgress(Math.min(1.0, (double) studyC / studyT)); goalStudyValue.setText(studyC + "m / " + studyT + "m"); }
+        if (studyT > 0) { goalStudyBar.setProgress(Math.min(1.0, (double) studyC / studyT)); goalStudyValue.setText(formatShort(studyC) + " / " + formatShort(studyT)); }
         else { goalStudyBar.setProgress(0); goalStudyValue.setText("No goal"); }
-        if (screenT > 0) { goalScreenBar.setProgress(Math.min(1.0, (double) screenC / screenT)); goalScreenValue.setText(screenC + "m / " + screenT + "m"); }
+
+        if (screenT > 0) { goalScreenBar.setProgress(Math.min(1.0, (double) screenC / screenT)); goalScreenValue.setText(formatShort(screenC) + " / " + formatShort(screenT)); }
         else { goalScreenBar.setProgress(0); goalScreenValue.setText("No goal"); }
-        if (sleepT > 0) { goalSleepBar.setProgress(Math.min(1.0, (double) sleepC / sleepT)); goalSleepValue.setText(sleepC + "m / " + sleepT + "m"); }
+
+        if (sleepT > 0) { goalSleepBar.setProgress(Math.min(1.0, (double) sleepC / sleepT)); goalSleepValue.setText(formatShort(sleepC) + " / " + formatShort(sleepT)); }
         else { goalSleepBar.setProgress(0); goalSleepValue.setText("No goal"); }
     }
 
+    // FIXED: pie chart shows proportional tracked time
     private void updatePieChart() {
         int screen = 0, study = 0, sleep = 0;
         for (ActivityEntry e : activityLog) {
@@ -486,15 +504,20 @@ public class MainWindowController {
             if ("Study Time".equals(e.getCategory())) study += e.getDurationSeconds();
             if ("Sleep Time".equals(e.getCategory())) sleep += e.getDurationSeconds();
         }
-        double total = 24 * 3600.0;
-        double sp = screen / total * 100, stp = study / total * 100, slp = sleep / total * 100;
-        double free = Math.max(0, 100 - sp - stp - slp);
+
         activityPieChart.getData().clear();
+        int tracked = screen + study + sleep;
+
+        if (tracked == 0) {
+            activityPieChart.getData().add(new PieChart.Data("No activity yet", 100));
+            return;
+        }
+
+        double total = tracked;
         activityPieChart.getData().addAll(
-                new PieChart.Data(String.format("Screen %.0f%%", sp), Math.max(sp, 0.01)),
-                new PieChart.Data(String.format("Study %.0f%%", stp), Math.max(stp, 0.01)),
-                new PieChart.Data(String.format("Sleep %.0f%%", slp), Math.max(slp, 0.01)),
-                new PieChart.Data(String.format("Free %.0f%%", free), Math.max(free, 0.01))
+                new PieChart.Data(String.format("Screen (%.0f%%)", screen / total * 100), screen),
+                new PieChart.Data(String.format("Study (%.0f%%)", study / total * 100), study),
+                new PieChart.Data(String.format("Sleep (%.0f%%)", sleep / total * 100), sleep)
         );
     }
 
@@ -527,6 +550,8 @@ public class MainWindowController {
             scene.getRoot().getStyleClass().remove("dark-mode");
             darkModeBtn.setText("☾");
         }
+        // Force chart re-render
+        updatePieChart();
     }
 
     // ===================================================
@@ -537,6 +562,7 @@ public class MainWindowController {
         if (focusMode) {
             focusModeButton.setText("⊕    Focus Mode: ON");
             focusModeButton.setStyle("-fx-background-color: #e8f0ff; -fx-text-fill: #0758ed; -fx-font-weight: bold;");
+            if (inPreviewMode) endPreview(); // stop any active session
         } else {
             focusModeButton.setText("⊕    Focus Mode");
             focusModeButton.setStyle("");
@@ -652,19 +678,13 @@ public class MainWindowController {
         openInfoWindow("Achievements", "Your Achievements", sb.toString());
     }
 
-    // Week 4: Reports now uses Future + Callable
     @FXML private void openReportsWindow() {
         try {
             List<ActivityEntry> snapshot = new ArrayList<>(activityLog);
             Future<StatsCalculator.Stats> future =
                     threadManager.submitCalculation(new StatsCalculator(snapshot));
-
-            // We can do other work here before blocking on future.get()
             long completed = goals.stream().filter(Goal::isCompleted).count();
-
-            // Block for the result
             StatsCalculator.Stats stats = future.get();
-
             openInfoWindow("Reports", "Today's Report",
                     stats.toString() + "\n" +
                             "Goals Completed: " + completed + " / " + goals.size() + "\n" +
@@ -674,7 +694,6 @@ public class MainWindowController {
         }
     }
 
-    // Week 4: Thread Monitor window (visualizes thread states, race vs. synchronized)
     @FXML private void openThreadMonitor() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/ThreadMonitor.fxml"));
@@ -684,9 +703,7 @@ public class MainWindowController {
             stage.initModality(Modality.NONE);
             stage.setScene(new Scene(root, 780, 620));
             stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) { ex.printStackTrace(); }
     }
 
     @FXML private void openSettingsWindow() {
@@ -696,13 +713,54 @@ public class MainWindowController {
         VBox root = new VBox(15);
         root.setPadding(new Insets(30));
         root.setStyle("-fx-background-color: #f7f9fd;");
+
         Label title = new Label("Settings");
         title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1769ff;");
+
+        // === App Categorization ===
+        Label appCatTitle = new Label("App Categorization");
+        appCatTitle.setStyle("-fx-font-weight: bold; -fx-padding: 8 0 0 0;");
+        Label appCatHint = new Label("Mark apps as Productive (helps score) or Non-Productive (hurts score).");
+        appCatHint.setStyle("-fx-font-size: 11px; -fx-text-fill: #68738a;");
+
+        VBox appList = new VBox(6);
+        List<String> allApps = Arrays.asList("YouTube", "Facebook", "Instagram", "WhatsApp", "Chrome");
+        for (String app : allApps) {
+            HBox row = new HBox(10);
+            row.setAlignment(Pos.CENTER_LEFT);
+            Label lbl = new Label(app);
+            lbl.setMinWidth(120);
+            ToggleButton toggle = new ToggleButton();
+            boolean isProd = productiveApps.contains(app);
+            toggle.setSelected(isProd);
+            toggle.setText(isProd ? "Productive" : "Non-Productive");
+            toggle.setStyle(isProd
+                    ? "-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-background-radius: 6; -fx-font-weight: bold;"
+                    : "-fx-background-color: #fee2e2; -fx-text-fill: #991b1b; -fx-background-radius: 6; -fx-font-weight: bold;");
+            toggle.setOnAction(e -> {
+                boolean nowProd = toggle.isSelected();
+                if (nowProd) {
+                    productiveApps.add(app);
+                    nonProductiveApps.remove(app);
+                    toggle.setText("Productive");
+                    toggle.setStyle("-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-background-radius: 6; -fx-font-weight: bold;");
+                } else {
+                    productiveApps.remove(app);
+                    nonProductiveApps.add(app);
+                    toggle.setText("Non-Productive");
+                    toggle.setStyle("-fx-background-color: #fee2e2; -fx-text-fill: #991b1b; -fx-background-radius: 6; -fx-font-weight: bold;");
+                }
+                updateScore();
+            });
+            row.getChildren().addAll(lbl, toggle);
+            appList.getChildren().add(row);
+        }
+
+        // === Preferences ===
         Label prefTitle = new Label("Preferences");
-        prefTitle.setStyle("-fx-font-weight: bold;");
+        prefTitle.setStyle("-fx-font-weight: bold; -fx-padding: 8 0 0 0;");
         CheckBox notifChk = new CheckBox("Enable notifications"); notifChk.setSelected(true);
         CheckBox soundChk = new CheckBox("Enable sound alerts");
-        CheckBox autoChk = new CheckBox("Auto-start in Focus Mode");
 
         Button manageGoalsBtn = new Button("⚙  Manage Goals...");
         manageGoalsBtn.setStyle("-fx-background-color: #1769ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6;");
@@ -711,13 +769,12 @@ public class MainWindowController {
         Button resetBtn = new Button("🗑  Reset Today's Data");
         resetBtn.setStyle("-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6;");
         resetBtn.setOnAction(e -> {
-            Alert c = new Alert(Alert.AlertType.CONFIRMATION, "Reset today's activities?",
-                    ButtonType.OK, ButtonType.CANCEL);
+            Alert c = new Alert(Alert.AlertType.CONFIRMATION, "Reset today's activities?", ButtonType.OK, ButtonType.CANCEL);
             if (c.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
                 activityLog.clear();
                 achievements.clear();
                 goals.clear();
-                totalStudyMinutes = 0; totalSessionsDone = 0;
+                totalStudySeconds = 0; totalSessionsDone = 0;
                 threadManager.getCounter().reset();
                 updateStudyStats(); refreshAchievements(); updateScore();
                 updateGoalPanel(); updatePieChart(); updateBottomBar();
@@ -726,9 +783,17 @@ public class MainWindowController {
 
         Label aboutTitle = new Label("About"); aboutTitle.setStyle("-fx-font-weight: bold;");
         Label about = new Label("Personalized Activity and Screen Time Manager\nv1.0 — Lab Project (Weeks 1–4)");
-        root.getChildren().addAll(title, prefTitle, notifChk, soundChk, autoChk,
-                new Separator(), manageGoalsBtn, resetBtn, new Separator(), aboutTitle, about);
-        stage.setScene(new Scene(root, 480, 480));
+
+        root.getChildren().addAll(title,
+                appCatTitle, appCatHint, appList,
+                new Separator(),
+                prefTitle, notifChk, soundChk,
+                new Separator(), manageGoalsBtn, resetBtn,
+                new Separator(), aboutTitle, about);
+
+        ScrollPane sp = new ScrollPane(root);
+        sp.setFitToWidth(true);
+        stage.setScene(new Scene(sp, 520, 720));
         stage.show();
     }
 
@@ -750,13 +815,13 @@ public class MainWindowController {
                         "\nCompleted: " + completed + "\nAchievements: " + achievements.size());
     }
 
-    // ===================================================
-    //  RIGHT PANEL
-    // ===================================================
     @FXML private void showPieInfo() {
-        openInfoWindow("Chart Info", "24-Hour Breakdown",
-                "This chart shows your tracked time distribution.\nIt updates automatically.");
+        openInfoWindow("Chart Info", "Activity Breakdown",
+                "This chart shows the proportional breakdown of your tracked time:\n" +
+                        "• Screen Time\n• Study Time\n• Sleep Time\n\n" +
+                        "If you have no activity yet, it shows a single placeholder slice.");
     }
+
     @FXML private void prevTip() {
         currentTipIndex = (currentTipIndex - 1 + tips.size()) % tips.size();
         tipLabel.setText("Tip: " + tips.get(currentTipIndex));
@@ -767,9 +832,6 @@ public class MainWindowController {
     }
     @FXML private void openEditGoals() { openGoalsWindow(); }
 
-    // ===================================================
-    //  HELPERS
-    // ===================================================
     private void openInfoWindow(String title, String header, String content) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

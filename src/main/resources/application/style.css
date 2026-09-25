@@ -401,3 +401,29 @@
 
 .dark-mode .progress-bar .track { -fx-background-color: #34495e; }
 .dark-mode .chart-legend-item { -fx-text-fill: #cbd5e0; }
+
+/* ===== Chart fixes for BOTH light and dark ===== */
+.chart { -fx-background-color: transparent; }
+.chart-content { -fx-background-color: transparent; }
+.chart-plot-background { -fx-background-color: transparent; }
+.chart-pie-label { -fx-fill: #202a3e; -fx-font-size: 11px; }
+.chart-pie-label-line { -fx-stroke: #8793a7; -fx-fill: #8793a7; }
+.chart-legend { -fx-background-color: transparent; }
+.chart-legend-item { -fx-text-fill: #172033; }
+.chart-legend-item-symbol { -fx-background-radius: 4; }
+
+/* ===== DARK MODE chart overrides ===== */
+.dark-mode .chart-pie-label { -fx-fill: #e2e8f0; }
+.dark-mode .chart-pie-label-line { -fx-stroke: #a0aec0; -fx-fill: #a0aec0; }
+.dark-mode .chart-legend-item { -fx-text-fill: #e2e8f0; }
+.dark-mode .chart-legend-item .label { -fx-text-fill: #e2e8f0; }
+.dark-mode .chart .axis { -fx-tick-label-fill: #e2e8f0; }
+.dark-mode .chart-title { -fx-text-fill: #e2e8f0; }
+
+/* Pie slice colors — bright enough to see in both themes */
+.default-color0.chart-pie { -fx-pie-color: #1769ff; } /* Screen */
+.default-color1.chart-pie { -fx-pie-color: #18a957; } /* Study */
+.default-color2.chart-pie { -fx-pie-color: #8052d2; } /* Sleep */
+.default-color3.chart-pie { -fx-pie-color: #f59e0b; } /* Free / placeholder */
+
+

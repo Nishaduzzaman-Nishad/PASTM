@@ -2,53 +2,59 @@ package model;
 
 public class Goal {
     private String name;
-    private int targetMinutes;
-    private int currentMinutes;
+    private int targetSeconds;
+    private int currentSeconds;
     private String category;
     private boolean completed;
 
     public Goal(String name, int targetMinutes, String category) {
         this.name = name;
-        this.targetMinutes = targetMinutes;
+        this.targetSeconds = targetMinutes * 60;
         this.category = category;
-        this.currentMinutes = 0;
+        this.currentSeconds = 0;
         recalculate();
     }
 
-    public void addProgress(int minutes) {
-        this.currentMinutes += minutes;
+    public void addProgress(int seconds) {
+        this.currentSeconds += seconds;
         recalculate();
     }
 
     public void resetProgress() {
-        this.currentMinutes = 0;
+        this.currentSeconds = 0;
         this.completed = false;
     }
 
     private void recalculate() {
         if ("Screen Time".equals(category)) {
-            // Screen goal = maximum budget. Completed only if some usage and under limit.
-            completed = currentMinutes > 0 && currentMinutes <= targetMinutes;
+            completed = currentSeconds > 0 && currentSeconds <= targetSeconds;
         } else {
-            // Study / Sleep goals = minimum target.
-            completed = currentMinutes >= targetMinutes;
+            completed = currentSeconds >= targetSeconds;
         }
     }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public int getTargetMinutes() { return targetMinutes; }
-    public void setTargetMinutes(int t) { this.targetMinutes = t; recalculate(); }
-    public int getCurrentMinutes() { return currentMinutes; }
+    public int getTargetMinutes() { return targetSeconds / 60; }
+    public int getTargetSeconds() { return targetSeconds; }
+    public void setTargetMinutes(int t) { this.targetSeconds = t * 60; recalculate(); }
+    public int getCurrentMinutes() { return currentSeconds / 60; }
+    public int getCurrentSeconds() { return currentSeconds; }
     public String getCategory() { return category; }
     public boolean isCompleted() { return completed; }
 
     public double getProgressRatio() {
-        if (targetMinutes <= 0) return 0;
-        return Math.min(1.0, (double) currentMinutes / targetMinutes);
+        if (targetSeconds <= 0) return 0;
+        return Math.min(1.0, (double) currentSeconds / targetSeconds);
     }
 
     public String getProgressText() {
-        return currentMinutes + "m / " + targetMinutes + "m";
+        return formatSec(currentSeconds) + " / " + formatSec(targetSeconds);
+    }
+
+    private String formatSec(int s) {
+        int m = s / 60;
+        if (m >= 60) return String.format("%dh %02dm", m / 60, m % 60);
+        return m + "m";
     }
 }
